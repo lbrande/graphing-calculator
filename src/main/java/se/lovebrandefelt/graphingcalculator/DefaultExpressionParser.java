@@ -9,14 +9,14 @@ class DefaultExpressionParser implements ExpressionParser {
   private List<Token> tokens;
 
   @Override
-  public TokenizedExpression parse(String expression) {
+  public TokenizedExpression parse(String expression) throws ExpressionParsingException {
     this.expression = expression;
     expressionIndex = 0;
     tokens = new ArrayList<>();
 
     do {
       if (onStartOfNumericValue()) {
-        parseNumericValue();
+        tokens.add(new DoubleToken(parseNumericValue()));
       }
       expressionIndex++;
     } while (expressionIndex < expression.length());
@@ -28,13 +28,17 @@ class DefaultExpressionParser implements ExpressionParser {
     return Character.isDigit(currentChar) || currentChar == '-';
   }
 
-  private void parseNumericValue() {
+  private double parseNumericValue() throws ExpressionParsingException {
     int startOfNumericValue = expressionIndex;
     findEndOfNumericValue();
     int endOfNumericValue = expressionIndex;
-    tokens.add(
-        new DoubleToken(
-            Double.parseDouble(expression.substring(startOfNumericValue, endOfNumericValue))));
+
+    String toParse = expression.substring(startOfNumericValue, endOfNumericValue);
+    try {
+      return Double.parseDouble(toParse);
+    } catch (NumberFormatException e) {
+      throw new ExpressionParsingException(toParse + " could not be parsed as a numeric value.");
+    }
   }
 
   private void findEndOfNumericValue() {
