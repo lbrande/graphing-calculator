@@ -15,19 +15,30 @@ class ParseTests {
 
   @ParameterizedTest
   @ValueSource(strings = {"10000000000", "-10000000000", "3.333", "-3.333"})
-  void parsingOfNumericValueIsIdenticalToParseDouble(String numberString) {
-    TokenizedExpression tokenizedExpression = parser.parse(numberString);
-    Assertions.assertEquals(1, tokenizedExpression.tokenCount());
-
-    Token token = tokenizedExpression.tokenAt(0);
+  void parsingOfANumericValueIsIdenticalToParseDouble(String numberString) {
+    Token token = parseAndAssertSingleToken(numberString);
     Assertions.assertTrue(token.isNumeric());
     Assertions.assertEquals(Double.parseDouble(numberString), token.getNumericValue());
   }
 
   @Test
-  void parsingOfIncorrectNumericValueThrowsExpressionParsingException() {
+  void parsingOfAnIncorrectNumericValueThrowsNumberFormatException() {
     String toParse = "5.5.5";
     Executable parse = () -> parser.parse(toParse);
-    Assertions.assertThrows(ExpressionParsingException.class, parse);
+    Assertions.assertThrows(NumberFormatException.class, parse);
+  }
+
+  @Test
+  void parsingOfPlusReturnsAPlusToken() {
+    String toParse = "+";
+    Token token = parseAndAssertSingleToken(toParse);
+    Assertions.assertTrue(token.isBinaryOperator());
+    Assertions.assertTrue(token instanceof PlusToken);
+  }
+
+  private Token parseAndAssertSingleToken(String toParse) {
+    TokenizedExpression tokenizedExpression = parser.parse(toParse);
+    Assertions.assertEquals(1, tokenizedExpression.tokenCount());
+    return tokenizedExpression.tokenAt(0);
   }
 }

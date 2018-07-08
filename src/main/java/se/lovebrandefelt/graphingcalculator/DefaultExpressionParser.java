@@ -1,22 +1,32 @@
 package se.lovebrandefelt.graphingcalculator;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Supplier;
 
 class DefaultExpressionParser implements ExpressionParser {
+  private static final Map<Character, Supplier<Token>> BINARY_OPERATORS = new HashMap<>();
+
+  static {
+    BINARY_OPERATORS.put('+', PlusToken::new);
+  }
+
   private String expression;
   private int expressionIndex;
-  private List<Token> tokens;
 
   @Override
-  public TokenizedExpression parse(String expression) throws ExpressionParsingException {
+  public TokenizedExpression parse(String expression) throws NumberFormatException {
     this.expression = expression;
     expressionIndex = 0;
-    tokens = new ArrayList<>();
+    List<Token> tokens = new ArrayList<>();
 
     do {
       if (onStartOfNumericValue()) {
         tokens.add(new DoubleToken(parseNumericValue()));
+      } else if (onBinaryOperator()) {
+        tokens.add(createBinaryOperatorToken());
       }
       expressionIndex++;
     } while (expressionIndex < expression.length());
@@ -28,17 +38,13 @@ class DefaultExpressionParser implements ExpressionParser {
     return Character.isDigit(currentChar) || currentChar == '-';
   }
 
-  private double parseNumericValue() throws ExpressionParsingException {
+  private double parseNumericValue() throws NumberFormatException {
     int startOfNumericValue = expressionIndex;
     findEndOfNumericValue();
     int endOfNumericValue = expressionIndex;
 
     String toParse = expression.substring(startOfNumericValue, endOfNumericValue);
-    try {
-      return Double.parseDouble(toParse);
-    } catch (NumberFormatException e) {
-      throw new ExpressionParsingException(toParse + " could not be parsed as a numeric value.");
-    }
+    return Double.parseDouble(toParse);
   }
 
   private void findEndOfNumericValue() {
@@ -50,5 +56,13 @@ class DefaultExpressionParser implements ExpressionParser {
   private boolean onPartOfNumericValue() {
     char currentChar = expression.charAt(expressionIndex);
     return Character.isDigit(currentChar) || currentChar == '.';
+  }
+
+  private boolean onBinaryOperator() {
+    return BINARY_OPERATORS.containsKey(expression.charAt(expressionIndex));
+  }
+
+  private Token createBinaryOperatorToken() {
+    return BINARY_OPERATORS.get(expression.charAt(expressionIndex)).get();
   }
 }

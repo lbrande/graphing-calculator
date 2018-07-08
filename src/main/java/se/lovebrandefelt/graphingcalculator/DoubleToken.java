@@ -1,6 +1,6 @@
 package se.lovebrandefelt.graphingcalculator;
 
-class DoubleToken implements Token {
+class DoubleToken extends Token {
   private double value;
 
   DoubleToken(double value) {
