@@ -1,0 +1,33 @@
+plugins {
+    id 'java'
+    id 'checkstyle'
+}
+
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.10
+
+ext {
+    jUnitGroup = 'org.junit.jupiter'
+    jUnitVersion = '5.2.0'
+
+    checkstyleVersion = '8.11'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: jUnitGroup, name: 'junit-jupiter-api', version: jUnitVersion
+    testCompile group: jUnitGroup, name: 'junit-jupiter-params', version: jUnitVersion
+    testRuntime group: jUnitGroup, name: 'junit-jupiter-engine', version: jUnitVersion
+}
+
+test {
+    useJUnitPlatform()
+}
+
+checkstyle {
+    toolVersion checkstyleVersion
+}
