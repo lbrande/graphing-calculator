@@ -1,19 +1,19 @@
 package se.lovebrandefelt.graphingcalculator;
 
-import java.util.List;
+import java.util.Queue;
 
 class TokenizedExpression {
-  private List<Token> tokens;
+  private Queue<Token> tokens;
 
-  TokenizedExpression(List<Token> tokens) {
+  TokenizedExpression(Queue<Token> tokens) {
     this.tokens = tokens;
   }
 
-  Token tokenAt(int i) {
-    return tokens.get(i);
+  Token next() {
+    return tokens.remove();
   }
 
-  int tokenCount() {
-    return tokens.size();
+  boolean hasNext() {
+    return !tokens.isEmpty();
   }
 }

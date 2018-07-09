@@ -1,6 +1,7 @@
 package se.lovebrandefelt.graphingcalculator;
 
 abstract class Token {
+
   boolean isNumeric() {
     return false;
   }
