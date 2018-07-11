@@ -1,78 +1,80 @@
 package se.lovebrandefelt.graphingcalculator;
 
 import java.util.ArrayDeque;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Queue;
-import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 class DefaultExpressionParser implements ExpressionParser {
   private static final String NUMERIC_VALUE_REGEX = "-?\\d+(?:\\.\\d+)?";
   private static final Pattern NUMERIC_VALUE_PATTERN = Pattern.compile(NUMERIC_VALUE_REGEX);
-  private static final Map<Character, Supplier<Token>> BINARY_OPERATORS = new HashMap<>();
-  private static final String ILLEGAL_EXPRESSION_ERROR_MESSAGE = " is not a legal expression.";
 
-  static {
-    BINARY_OPERATORS.put('+', PlusToken::new);
-    BINARY_OPERATORS.put('-', MinusToken::new);
-    BINARY_OPERATORS.put('*', TimesToken::new);
-    BINARY_OPERATORS.put('/', DivisionToken::new);
-    BINARY_OPERATORS.put('^', PowerToken::new);
-  }
+  private static final String ILLEGAL_EXPRESSION_ERROR_MESSAGE = " is not a legal expression.";
 
   private String expression;
   private Matcher numericValueMatcher;
-  private Queue<Token> tokens;
+  private ArrayDeque<Token> tokens;
   private int expressionIndex;
-  private char currentChar;
 
   @Override
   public TokenizedExpression parse(String expression) {
     initParsing(expression);
 
     while (expressionIndex < expression.length()) {
-      tokens.add(parseNextToken());
-      if (tokens.element().isNumeric()) {
-        expressionIndex = numericValueMatcher.end();
-      } else {
-        expressionIndex++;
-      }
+      tokens.addLast(parseNextToken());
     }
 
     return new TokenizedExpression(tokens);
   }
 
   private void initParsing(String expression) {
-    this.expression = expression;
-    numericValueMatcher = NUMERIC_VALUE_PATTERN.matcher(expression);
+    this.expression = expression.trim();
+    numericValueMatcher = NUMERIC_VALUE_PATTERN.matcher(this.expression);
     tokens = new ArrayDeque<>();
     expressionIndex = 0;
   }
 
   private Token parseNextToken() {
-    currentChar = expression.charAt(expressionIndex);
+    findNextToken();
     if (isOnBinaryOperator()) {
-      return BINARY_OPERATORS.get(currentChar).get();
+      return parseBinaryOperator();
     } else if (isOnNumericValue()) {
-      return new DoubleToken(
-          Double.parseDouble(
-              expression.substring(numericValueMatcher.start(), numericValueMatcher.end())));
+      return parseNumericValue();
     } else {
       throw new IllegalArgumentException(expression + ILLEGAL_EXPRESSION_ERROR_MESSAGE);
+    }
+  }
+
+  private void findNextToken() {
+    while (expressionIndex < expression.length()
+        && Character.isWhitespace(expression.charAt(expressionIndex))) {
+      expressionIndex++;
     }
   }
 
   private boolean isOnNumericValue() {
     return numericValueMatcher.find(expressionIndex)
         && numericValueMatcher.start() == expressionIndex
-        && (tokens.isEmpty() || tokens.element().isBinaryOperator());
+        && (tokens.isEmpty() || tokens.getLast().isBinaryOperator());
+  }
+
+  private Token parseNumericValue() {
+    Token token =
+        new DoubleToken(
+            Double.parseDouble(
+                expression.substring(numericValueMatcher.start(), numericValueMatcher.end())));
+    expressionIndex = numericValueMatcher.end();
+    return token;
   }
 
   private boolean isOnBinaryOperator() {
-    return BINARY_OPERATORS.containsKey(currentChar)
+    return BinaryOperatorTokens.isBinaryOperator(expression.charAt(expressionIndex))
         && !tokens.isEmpty()
-        && tokens.element().isNumeric();
+        && tokens.getLast().isNumeric();
+  }
+
+  private Token parseBinaryOperator() {
+    Token token = BinaryOperatorTokens.newToken(expression.charAt(expressionIndex));
+    expressionIndex++;
+    return token;
   }
 }

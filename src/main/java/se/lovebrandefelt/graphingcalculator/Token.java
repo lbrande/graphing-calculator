@@ -1,21 +1,22 @@
 package se.lovebrandefelt.graphingcalculator;
 
 abstract class Token {
+  private static final String NOT_NUMERIC_ERROR_MESSAGE = "Token is non-numeric.";
+  private static final String NOT_BINARY_OPERATOR_ERROR_MESSAGE = "Token is not a binary operator";
 
   boolean isNumeric() {
     return false;
   }
 
   double getNumericValue() {
-    throw new UnsupportedOperationException("Can't get numeric value of non-numeric token.");
+    throw new UnsupportedOperationException(NOT_NUMERIC_ERROR_MESSAGE);
   }
 
   boolean isBinaryOperator() {
     return false;
   }
 
-  double evaluate(double a, double b) {
-    throw new UnsupportedOperationException(
-        "Can't evaluate non-binary-operator token with 2 operands");
+  double evaluate(double firstOperand, double secondOperand) {
+    throw new UnsupportedOperationException(NOT_BINARY_OPERATOR_ERROR_MESSAGE);
   }
 }

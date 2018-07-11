@@ -1,10 +1,11 @@
 package se.lovebrandefelt.graphingcalculator;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
+import org.junit.jupiter.api.TestFactory;
 
 class ParseTests {
   private ExpressionParser parser;
@@ -13,64 +14,52 @@ class ParseTests {
     parser = new DefaultExpressionParser();
   }
 
-  @ParameterizedTest
-  @ValueSource(strings = {"10000000000", "-10000000000", "3.333", "-3.333"})
-  void parsingOfANumericValueIsIdenticalToParseDouble(String numberString) {
-    Token token = firstToken(numberString);
-    Assertions.assertTrue(token.isNumeric());
-    Assertions.assertEquals(Double.parseDouble(numberString), token.getNumericValue());
+  @TestFactory
+  DynamicTest[] parsingOfANumberReturnsCorrespondingDouble() {
+    return new DynamicTest[] {
+      newParseTest(new TokenizedExpression(new DoubleToken(100)), "100"),
+      newParseTest(new TokenizedExpression(new DoubleToken(1.25)), "1.25"),
+      newParseTest(new TokenizedExpression(new DoubleToken(-3.33)), "-3.33")
+    };
   }
 
   @Test
   void parsingOfTwoConsecutiveNumbersThrowsIllegalArgumentException() {
-    String toParse = "3.3333.333";
-    Executable parse = () -> parser.parse(toParse);
-    Assertions.assertThrows(IllegalArgumentException.class, parse);
+    String expression = "0.11.1";
+    Assertions.assertThrows(IllegalArgumentException.class, () -> parser.parse(expression));
   }
 
-  @Test
-  void parsingOfPlusReturnsAPlusToken() {
-    String toParse = "+";
-    Token token = firstToken(toParse);
-    Assertions.assertTrue(token.isBinaryOperator());
-    Assertions.assertTrue(token instanceof PlusToken);
+  @TestFactory
+  DynamicTest[] parsingOfABinaryOperationReturnsThatOperation() {
+    return new DynamicTest[] {
+      newParseTest(
+          new TokenizedExpression(new DoubleToken(5), new AddToken(), new DoubleToken(7)), "5 + 7"),
+      newParseTest(
+          new TokenizedExpression(new DoubleToken(15), new SubToken(), new DoubleToken(3)),
+          "15 - 3"),
+      newParseTest(
+          new TokenizedExpression(new DoubleToken(3), new MulToken(), new DoubleToken(4)), "3 * 4"),
+      newParseTest(
+          new TokenizedExpression(new DoubleToken(12), new DivToken(), new DoubleToken(4)),
+          "12 / 4"),
+      newParseTest(
+          new TokenizedExpression(new DoubleToken(4), new PowToken(), new DoubleToken(2)), "4 ^ 2"),
+    };
   }
 
-  @Test
-  void parsingOfMinusReturnsAMinusToken() {
-    String toParse = "-";
-    Token token = firstToken(toParse);
-    Assertions.assertTrue(token.isBinaryOperator());
-    Assertions.assertTrue(token instanceof MinusToken);
+  private DynamicTest newParseTest(TokenizedExpression expected, String expression) {
+    return DynamicTest.dynamicTest(
+        expression,
+        () ->
+            Assertions.assertArrayEquals(
+                expressionToArray(expected), expressionToArray(parser.parse(expression))));
   }
 
-  @Test
-  void parsingOfTimesReturnsATimesToken() {
-    String toParse = "*";
-    Token token = firstToken(toParse);
-    Assertions.assertTrue(token.isBinaryOperator());
-    Assertions.assertTrue(token instanceof TimesToken);
-  }
-
-  @Test
-  void parsingOfDivisionReturnsADivisionToken() {
-    String toParse = "/";
-    Token token = firstToken(toParse);
-    Assertions.assertTrue(token.isBinaryOperator());
-    Assertions.assertTrue(token instanceof DivisionToken);
-  }
-
-  @Test
-  void parsingOfPowerReturnsAPowerToken() {
-    String toParse = "^";
-    Token token = firstToken(toParse);
-    Assertions.assertTrue(token.isBinaryOperator());
-    Assertions.assertTrue(token instanceof PowerToken);
-  }
-
-  private Token firstToken(String toParse) {
-    TokenizedExpression tokenizedExpression = parser.parse(toParse);
-    Assertions.assertTrue(tokenizedExpression.hasNext());
-    return tokenizedExpression.next();
+  private Token[] expressionToArray(TokenizedExpression tokenizedExpression) {
+    List<Token> tokens = new ArrayList<>();
+    while (tokenizedExpression.hasNext()) {
+      tokens.add(tokenizedExpression.next());
+    }
+    return tokens.toArray(new Token[] {});
   }
 }

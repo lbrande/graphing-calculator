@@ -1,5 +1,7 @@
 package se.lovebrandefelt.graphingcalculator;
 
+import java.util.Objects;
+
 class DoubleToken extends Token {
   private double value;
 
@@ -15,5 +17,22 @@ class DoubleToken extends Token {
   @Override
   public double getNumericValue() {
     return value;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    DoubleToken that = (DoubleToken) o;
+    return Double.compare(that.value, value) == 0;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(value);
   }
 }

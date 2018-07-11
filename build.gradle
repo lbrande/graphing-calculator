@@ -20,7 +20,6 @@ repositories {
 
 dependencies {
     testCompile group: jUnitGroup, name: 'junit-jupiter-api', version: jUnitVersion
-    testCompile group: jUnitGroup, name: 'junit-jupiter-params', version: jUnitVersion
     testRuntime group: jUnitGroup, name: 'junit-jupiter-engine', version: jUnitVersion
 }
 
