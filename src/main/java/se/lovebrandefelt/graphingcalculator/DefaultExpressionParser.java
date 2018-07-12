@@ -3,6 +3,11 @@ package se.lovebrandefelt.graphingcalculator;
 import java.util.ArrayDeque;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import se.lovebrandefelt.graphingcalculator.token.BinaryOperatorTokens;
+import se.lovebrandefelt.graphingcalculator.token.DoubleToken;
+import se.lovebrandefelt.graphingcalculator.token.LeftParenToken;
+import se.lovebrandefelt.graphingcalculator.token.RightParenToken;
+import se.lovebrandefelt.graphingcalculator.token.Token;
 
 class DefaultExpressionParser implements ExpressionParser {
   private static final String NUMERIC_VALUE_REGEX = "-?\\d+(?:\\.\\d+)?";

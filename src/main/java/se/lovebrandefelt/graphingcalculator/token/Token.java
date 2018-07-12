@@ -1,12 +1,12 @@
-package se.lovebrandefelt.graphingcalculator;
+package se.lovebrandefelt.graphingcalculator.token;
 
 import java.util.Objects;
 
-abstract class Token {
+public abstract class Token {
   private static final String NOT_NUMERIC_ERROR_MESSAGE = "Token is non-numeric.";
   private static final String NOT_BINARY_OPERATOR_ERROR_MESSAGE = "Token is not a binary operator";
 
-  boolean isNumeric() {
+  public boolean isNumeric() {
     return false;
   }
 
@@ -14,7 +14,7 @@ abstract class Token {
     throw new UnsupportedOperationException(NOT_NUMERIC_ERROR_MESSAGE);
   }
 
-  boolean isBinaryOperator() {
+  public boolean isBinaryOperator() {
     return false;
   }
 

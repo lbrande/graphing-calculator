@@ -1,6 +1,6 @@
-package se.lovebrandefelt.graphingcalculator;
+package se.lovebrandefelt.graphingcalculator.token;
 
-class MulToken extends Token {
+public class PowToken extends Token {
   @Override
   public boolean isBinaryOperator() {
     return true;
@@ -8,6 +8,6 @@ class MulToken extends Token {
 
   @Override
   public double evaluate(double firstOperand, double secondOperand) {
-    return firstOperand * secondOperand;
+    return Math.pow(firstOperand, secondOperand);
   }
 }

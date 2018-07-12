@@ -1,11 +1,11 @@
-package se.lovebrandefelt.graphingcalculator;
+package se.lovebrandefelt.graphingcalculator.token;
 
 import java.util.Objects;
 
-class DoubleToken extends Token {
+public class DoubleToken extends Token {
   private double value;
 
-  DoubleToken(double value) {
+  public DoubleToken(double value) {
     this.value = value;
   }
 

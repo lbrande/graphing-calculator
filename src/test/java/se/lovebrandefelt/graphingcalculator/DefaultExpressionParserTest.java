@@ -5,6 +5,15 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestFactory;
+import se.lovebrandefelt.graphingcalculator.token.AddToken;
+import se.lovebrandefelt.graphingcalculator.token.DivToken;
+import se.lovebrandefelt.graphingcalculator.token.DoubleToken;
+import se.lovebrandefelt.graphingcalculator.token.LeftParenToken;
+import se.lovebrandefelt.graphingcalculator.token.MulToken;
+import se.lovebrandefelt.graphingcalculator.token.PowToken;
+import se.lovebrandefelt.graphingcalculator.token.RightParenToken;
+import se.lovebrandefelt.graphingcalculator.token.SubToken;
+import se.lovebrandefelt.graphingcalculator.token.Token;
 
 class DefaultExpressionParserTest {
   private ExpressionParser parser;
