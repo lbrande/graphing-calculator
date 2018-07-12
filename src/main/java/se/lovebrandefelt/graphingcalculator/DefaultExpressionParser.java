@@ -23,6 +23,10 @@ class DefaultExpressionParser implements ExpressionParser {
       tokens.addLast(parseNextToken());
     }
 
+    if (isExpressionIllegal()) {
+      throw newIllegalExpressionException();
+    }
+
     return new TokenizedExpression(tokens);
   }
 
@@ -40,8 +44,16 @@ class DefaultExpressionParser implements ExpressionParser {
     } else if (isOnNumericValue()) {
       return parseNumericValue();
     } else {
-      throw new IllegalArgumentException(expression + ILLEGAL_EXPRESSION_ERROR_MESSAGE);
+      throw newIllegalExpressionException();
     }
+  }
+
+  private boolean isExpressionIllegal() {
+    return tokens.getLast().isBinaryOperator();
+  }
+
+  private IllegalArgumentException newIllegalExpressionException() {
+    return new IllegalArgumentException(expression + ILLEGAL_EXPRESSION_ERROR_MESSAGE);
   }
 
   private void findNextToken() {

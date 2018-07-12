@@ -6,15 +6,15 @@ import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestFactory;
 
-class ParseTests {
+class DefaultExpressionParserTest {
   private ExpressionParser parser;
 
-  ParseTests() {
+  DefaultExpressionParserTest() {
     parser = new DefaultExpressionParser();
   }
 
   @TestFactory
-  DynamicTest[] parsingOfANumberReturnsCorrespondingDouble() {
+  DynamicTest[] parse_number_returnsThatNumber() {
     return new DynamicTest[] {
       newParseTest(new TokenizedExpression(new DoubleToken(100)), "100"),
       newParseTest(new TokenizedExpression(new DoubleToken(1.25)), "1.25"),
@@ -23,13 +23,13 @@ class ParseTests {
   }
 
   @Test
-  void parsingOfTwoConsecutiveNumbersThrowsIllegalArgumentException() {
+  void parse_consecutiveNumbers_throwsException() {
     var expression = "0.11.1";
     Assertions.assertThrows(IllegalArgumentException.class, () -> parser.parse(expression));
   }
 
   @TestFactory
-  DynamicTest[] parsingOfABinaryOperationReturnsThatOperation() {
+  DynamicTest[] parse_binaryOperation_returnsThatOperation() {
     return new DynamicTest[] {
       newParseTest(
           new TokenizedExpression(new DoubleToken(5), new AddToken(), new DoubleToken(7)), "5 + 7"),
@@ -43,6 +43,48 @@ class ParseTests {
           "12 / 4"),
       newParseTest(
           new TokenizedExpression(new DoubleToken(4), new PowToken(), new DoubleToken(2)), "4 ^ 2"),
+    };
+  }
+
+  @Test
+  void parse_consecutiveBinaryOperators_throwsException() {
+    var expression = "1 + + 1";
+    Assertions.assertThrows(IllegalArgumentException.class, () -> parser.parse(expression));
+  }
+
+  @Test
+  void parse_binaryOperatorFirst_throwsException() {
+    var expression = "- 2";
+    Assertions.assertThrows(IllegalArgumentException.class, () -> parser.parse(expression));
+  }
+
+  @Test
+  void parse_binaryOperatorLast_throwsException() {
+    var expression = "3 *";
+    Assertions.assertThrows(IllegalArgumentException.class, () -> parser.parse(expression));
+  }
+
+  @TestFactory
+  DynamicTest[] parse_chainedBinaryOperations_returnsThoseOperations() {
+    return new DynamicTest[] {
+      newParseTest(
+          new TokenizedExpression(
+              new DoubleToken(5),
+              new AddToken(),
+              new DoubleToken(7),
+              new SubToken(),
+              new DoubleToken(3)),
+          "5 + 7 - 3"),
+      newParseTest(
+          new TokenizedExpression(
+              new DoubleToken(3),
+              new MulToken(),
+              new DoubleToken(4),
+              new DivToken(),
+              new DoubleToken(4),
+              new PowToken(),
+              new DoubleToken(2)),
+          "3 * 4 / 4 ^ 2")
     };
   }
 
