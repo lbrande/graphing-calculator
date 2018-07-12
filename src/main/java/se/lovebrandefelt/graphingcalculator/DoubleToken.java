@@ -27,7 +27,7 @@ class DoubleToken extends Token {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    DoubleToken that = (DoubleToken) o;
+    var that = (DoubleToken) o;
     return Double.compare(that.value, value) == 0;
   }
 

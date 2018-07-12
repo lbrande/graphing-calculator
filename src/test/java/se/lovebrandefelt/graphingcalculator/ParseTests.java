@@ -1,7 +1,6 @@
 package se.lovebrandefelt.graphingcalculator;
 
 import java.util.ArrayList;
-import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.Test;
@@ -25,7 +24,7 @@ class ParseTests {
 
   @Test
   void parsingOfTwoConsecutiveNumbersThrowsIllegalArgumentException() {
-    String expression = "0.11.1";
+    var expression = "0.11.1";
     Assertions.assertThrows(IllegalArgumentException.class, () -> parser.parse(expression));
   }
 
@@ -56,7 +55,7 @@ class ParseTests {
   }
 
   private Token[] expressionToArray(TokenizedExpression tokenizedExpression) {
-    List<Token> tokens = new ArrayList<>();
+    var tokens = new ArrayList<Token>();
     while (tokenizedExpression.hasNext()) {
       tokens.add(tokenizedExpression.next());
     }

@@ -58,7 +58,7 @@ class DefaultExpressionParser implements ExpressionParser {
   }
 
   private Token parseNumericValue() {
-    Token token =
+    var token =
         new DoubleToken(
             Double.parseDouble(
                 expression.substring(numericValueMatcher.start(), numericValueMatcher.end())));
@@ -73,7 +73,7 @@ class DefaultExpressionParser implements ExpressionParser {
   }
 
   private Token parseBinaryOperator() {
-    Token token = BinaryOperatorTokens.newToken(expression.charAt(expressionIndex));
+    var token = BinaryOperatorTokens.newToken(expression.charAt(expressionIndex));
     expressionIndex++;
     return token;
   }
