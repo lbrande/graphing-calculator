@@ -9,11 +9,13 @@ class DefaultExpressionParser implements ExpressionParser {
   private static final Pattern NUMERIC_VALUE_PATTERN = Pattern.compile(NUMERIC_VALUE_REGEX);
 
   private static final String ILLEGAL_EXPRESSION_ERROR_MESSAGE = " is not a legal expression.";
+  private static final String NOT_PAREN_ERROR_MESSAGE = " is not a parenthesis.";
 
   private String expression;
   private Matcher numericValueMatcher;
   private ArrayDeque<Token> tokens;
   private int expressionIndex;
+  private int openParens;
 
   @Override
   public TokenizedExpression parse(String expression) {
@@ -35,13 +37,16 @@ class DefaultExpressionParser implements ExpressionParser {
     numericValueMatcher = NUMERIC_VALUE_PATTERN.matcher(this.expression);
     tokens = new ArrayDeque<>();
     expressionIndex = 0;
+    openParens = 0;
   }
 
   private Token parseNextToken() {
     findNextToken();
-    if (isOnBinaryOperator()) {
+    if (canParseParen()) {
+      return parseParen();
+    } else if (canParseBinaryOperator()) {
       return parseBinaryOperator();
-    } else if (isOnNumericValue()) {
+    } else if (canParseNumericValue()) {
       return parseNumericValue();
     } else {
       throw newIllegalExpressionException();
@@ -49,7 +54,7 @@ class DefaultExpressionParser implements ExpressionParser {
   }
 
   private boolean isExpressionIllegal() {
-    return tokens.getLast().isBinaryOperator();
+    return tokens.getLast().isBinaryOperator() || openParens > 0;
   }
 
   private IllegalArgumentException newIllegalExpressionException() {
@@ -63,10 +68,12 @@ class DefaultExpressionParser implements ExpressionParser {
     }
   }
 
-  private boolean isOnNumericValue() {
-    return numericValueMatcher.find(expressionIndex)
-        && numericValueMatcher.start() == expressionIndex
-        && (tokens.isEmpty() || tokens.getLast().isBinaryOperator());
+  private boolean canParseNumericValue() {
+    return (tokens.isEmpty()
+            || tokens.getLast().isBinaryOperator()
+            || tokens.getLast() instanceof LeftParenToken)
+        && numericValueMatcher.find(expressionIndex)
+        && numericValueMatcher.start() == expressionIndex;
   }
 
   private Token parseNumericValue() {
@@ -74,18 +81,48 @@ class DefaultExpressionParser implements ExpressionParser {
         new DoubleToken(
             Double.parseDouble(
                 expression.substring(numericValueMatcher.start(), numericValueMatcher.end())));
+
     expressionIndex = numericValueMatcher.end();
     return token;
   }
 
-  private boolean isOnBinaryOperator() {
-    return BinaryOperatorTokens.isBinaryOperator(expression.charAt(expressionIndex))
-        && !tokens.isEmpty()
-        && tokens.getLast().isNumeric();
+  private boolean canParseBinaryOperator() {
+    var currentChar = expression.charAt(expressionIndex);
+
+    return !tokens.isEmpty()
+        && (tokens.getLast().isNumeric() || tokens.getLast() instanceof RightParenToken)
+        && BinaryOperatorTokens.isBinaryOperator(currentChar);
   }
 
   private Token parseBinaryOperator() {
-    var token = BinaryOperatorTokens.newToken(expression.charAt(expressionIndex));
+    var currentChar = expression.charAt(expressionIndex);
+    var token = BinaryOperatorTokens.newToken(currentChar);
+
+    expressionIndex++;
+    return token;
+  }
+
+  private boolean canParseParen() {
+    var currentChar = expression.charAt(expressionIndex);
+
+    return currentChar == '('
+        || (currentChar == ')'
+            && !tokens.isEmpty()
+            && !(tokens.getLast() instanceof LeftParenToken)
+            && !tokens.getLast().isBinaryOperator());
+  }
+
+  private Token parseParen() {
+    var currentChar = expression.charAt(expressionIndex);
+    Token token;
+    if (currentChar == '(') {
+      token = new LeftParenToken();
+    } else if (currentChar == ')') {
+      token = new RightParenToken();
+    } else {
+      throw new IllegalArgumentException(currentChar + NOT_PAREN_ERROR_MESSAGE);
+    }
+
     expressionIndex++;
     return token;
   }

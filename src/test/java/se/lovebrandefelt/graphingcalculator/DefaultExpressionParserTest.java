@@ -22,12 +22,6 @@ class DefaultExpressionParserTest {
     };
   }
 
-  @Test
-  void parse_consecutiveNumbers_throwsException() {
-    var expression = "0.11.1";
-    Assertions.assertThrows(IllegalArgumentException.class, () -> parser.parse(expression));
-  }
-
   @TestFactory
   DynamicTest[] parse_binaryOperation_returnsThatOperation() {
     return new DynamicTest[] {
@@ -46,26 +40,8 @@ class DefaultExpressionParserTest {
     };
   }
 
-  @Test
-  void parse_consecutiveBinaryOperators_throwsException() {
-    var expression = "1 + + 1";
-    Assertions.assertThrows(IllegalArgumentException.class, () -> parser.parse(expression));
-  }
-
-  @Test
-  void parse_binaryOperatorFirst_throwsException() {
-    var expression = "- 2";
-    Assertions.assertThrows(IllegalArgumentException.class, () -> parser.parse(expression));
-  }
-
-  @Test
-  void parse_binaryOperatorLast_throwsException() {
-    var expression = "3 *";
-    Assertions.assertThrows(IllegalArgumentException.class, () -> parser.parse(expression));
-  }
-
   @TestFactory
-  DynamicTest[] parse_chainedBinaryOperations_returnsThoseOperations() {
+  DynamicTest[] parse_expressionWithBinaryOperations_returnsThatExpression() {
     return new DynamicTest[] {
       newParseTest(
           new TokenizedExpression(
@@ -86,6 +62,60 @@ class DefaultExpressionParserTest {
               new DoubleToken(2)),
           "3 * 4 / 4 ^ 2")
     };
+  }
+
+  @TestFactory
+  DynamicTest[] parse_expressionWithParenthesis_returnsThatExpression() {
+    return new DynamicTest[] {
+      newParseTest(
+          new TokenizedExpression(
+              new DoubleToken(5),
+              new AddToken(),
+              new LeftParenToken(),
+              new DoubleToken(7),
+              new SubToken(),
+              new DoubleToken(3),
+              new RightParenToken()),
+          "5 + (7 - 3)"),
+      newParseTest(
+          new TokenizedExpression(
+              new DoubleToken(3),
+              new MulToken(),
+              new LeftParenToken(),
+              new LeftParenToken(),
+              new DoubleToken(4),
+              new DivToken(),
+              new DoubleToken(4),
+              new RightParenToken(),
+              new PowToken(),
+              new DoubleToken(2),
+              new RightParenToken()),
+          "3 * ((4 / 4) ^ 2)")
+    };
+  }
+
+  @Test
+  void parse_consecutiveNumbers_throwsException() {
+    var expression = "0.11.1";
+    Assertions.assertThrows(IllegalArgumentException.class, () -> parser.parse(expression));
+  }
+
+  @Test
+  void parse_consecutiveBinaryOperators_throwsException() {
+    var expression = "1 + + 1";
+    Assertions.assertThrows(IllegalArgumentException.class, () -> parser.parse(expression));
+  }
+
+  @Test
+  void parse_binaryOperatorFirst_throwsException() {
+    var expression = "- 2";
+    Assertions.assertThrows(IllegalArgumentException.class, () -> parser.parse(expression));
+  }
+
+  @Test
+  void parse_binaryOperatorLast_throwsException() {
+    var expression = "3 *";
+    Assertions.assertThrows(IllegalArgumentException.class, () -> parser.parse(expression));
   }
 
   private DynamicTest newParseTest(TokenizedExpression expected, String expression) {
