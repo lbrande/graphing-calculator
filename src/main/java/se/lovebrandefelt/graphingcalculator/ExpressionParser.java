@@ -1,5 +1,5 @@
 package se.lovebrandefelt.graphingcalculator;
 
-interface ExpressionParser {
+public interface ExpressionParser {
   TokenizedExpression parse(String expression);
 }

@@ -10,7 +10,7 @@ public abstract class Token {
     return false;
   }
 
-  double getNumericValue() {
+  public double getNumericValue() {
     throw new UnsupportedOperationException(NOT_NUMERIC_ERROR_MESSAGE);
   }
 
@@ -18,7 +18,7 @@ public abstract class Token {
     return false;
   }
 
-  double evaluate(double firstOperand, double secondOperand) {
+  public double evaluate(double firstOperand, double secondOperand) {
     throw new UnsupportedOperationException(NOT_BINARY_OPERATOR_ERROR_MESSAGE);
   }
 

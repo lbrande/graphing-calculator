@@ -34,7 +34,7 @@ class DefaultExpressionParser implements ExpressionParser {
       throw newIllegalExpressionException();
     }
 
-    return new TokenizedExpression(tokens);
+    return new DefaultTokenizedExpression(tokens);
   }
 
   private void initParsing(String expression) {

@@ -25,9 +25,9 @@ class DefaultExpressionParserTest {
   @TestFactory
   DynamicTest[] parse_number_returnsThatNumber() {
     return new DynamicTest[] {
-      newParseTest(new TokenizedExpression(new DoubleToken(100)), "100"),
-      newParseTest(new TokenizedExpression(new DoubleToken(1.25)), "1.25"),
-      newParseTest(new TokenizedExpression(new DoubleToken(-3.33)), "-3.33")
+      newParseTest(new DefaultTokenizedExpression(new DoubleToken(100)), "100"),
+      newParseTest(new DefaultTokenizedExpression(new DoubleToken(1.25)), "1.25"),
+      newParseTest(new DefaultTokenizedExpression(new DoubleToken(-3.33)), "-3.33")
     };
   }
 
@@ -35,17 +35,20 @@ class DefaultExpressionParserTest {
   DynamicTest[] parse_binaryOperation_returnsThatOperation() {
     return new DynamicTest[] {
       newParseTest(
-          new TokenizedExpression(new DoubleToken(5), new AddToken(), new DoubleToken(7)), "5 + 7"),
+          new DefaultTokenizedExpression(new DoubleToken(5), new AddToken(), new DoubleToken(7)),
+          "5 + 7"),
       newParseTest(
-          new TokenizedExpression(new DoubleToken(15), new SubToken(), new DoubleToken(3)),
+          new DefaultTokenizedExpression(new DoubleToken(15), new SubToken(), new DoubleToken(3)),
           "15 - 3"),
       newParseTest(
-          new TokenizedExpression(new DoubleToken(3), new MulToken(), new DoubleToken(4)), "3 * 4"),
+          new DefaultTokenizedExpression(new DoubleToken(3), new MulToken(), new DoubleToken(4)),
+          "3 * 4"),
       newParseTest(
-          new TokenizedExpression(new DoubleToken(12), new DivToken(), new DoubleToken(4)),
+          new DefaultTokenizedExpression(new DoubleToken(12), new DivToken(), new DoubleToken(4)),
           "12 / 4"),
       newParseTest(
-          new TokenizedExpression(new DoubleToken(4), new PowToken(), new DoubleToken(2)), "4 ^ 2"),
+          new DefaultTokenizedExpression(new DoubleToken(4), new PowToken(), new DoubleToken(2)),
+          "4 ^ 2"),
     };
   }
 
@@ -53,7 +56,7 @@ class DefaultExpressionParserTest {
   DynamicTest[] parse_expressionWithBinaryOperations_returnsThatExpression() {
     return new DynamicTest[] {
       newParseTest(
-          new TokenizedExpression(
+          new DefaultTokenizedExpression(
               new DoubleToken(5),
               new AddToken(),
               new DoubleToken(7),
@@ -61,7 +64,7 @@ class DefaultExpressionParserTest {
               new DoubleToken(3)),
           "5 + 7 - 3"),
       newParseTest(
-          new TokenizedExpression(
+          new DefaultTokenizedExpression(
               new DoubleToken(3),
               new MulToken(),
               new DoubleToken(4),
@@ -77,7 +80,7 @@ class DefaultExpressionParserTest {
   DynamicTest[] parse_expressionWithParenthesis_returnsThatExpression() {
     return new DynamicTest[] {
       newParseTest(
-          new TokenizedExpression(
+          new DefaultTokenizedExpression(
               new DoubleToken(5),
               new AddToken(),
               new LeftParenToken(),
@@ -87,7 +90,7 @@ class DefaultExpressionParserTest {
               new RightParenToken()),
           "5 + (7 - 3)"),
       newParseTest(
-          new TokenizedExpression(
+          new DefaultTokenizedExpression(
               new DoubleToken(3),
               new MulToken(),
               new LeftParenToken(),
