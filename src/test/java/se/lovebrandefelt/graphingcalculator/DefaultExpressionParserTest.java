@@ -127,6 +127,18 @@ class DefaultExpressionParserTest {
     Assertions.assertThrows(IllegalArgumentException.class, () -> parser.parse(expression));
   }
 
+  @Test
+  void parse_openParenthesis_throwsException() {
+    var expression = "4 / (4 ^ 4";
+    Assertions.assertThrows(IllegalArgumentException.class, () -> parser.parse(expression));
+  }
+
+  @Test
+  void parse_rightParenthesisBeforeLeftParenthesis_throwsException() {
+    var expression = "5 + 5 - 5)";
+    Assertions.assertThrows(IllegalArgumentException.class, () -> parser.parse(expression));
+  }
+
   private DynamicTest newParseTest(TokenizedExpression expected, String expression) {
     return DynamicTest.dynamicTest(
         expression,

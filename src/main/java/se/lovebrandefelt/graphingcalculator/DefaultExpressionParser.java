@@ -114,7 +114,8 @@ class DefaultExpressionParser implements ExpressionParser {
         || (currentChar == ')'
             && !tokens.isEmpty()
             && !(tokens.getLast() instanceof LeftParenToken)
-            && !tokens.getLast().isBinaryOperator());
+            && !tokens.getLast().isBinaryOperator()
+            && openParens > 0);
   }
 
   private Token parseParen() {
@@ -122,8 +123,10 @@ class DefaultExpressionParser implements ExpressionParser {
     Token token;
     if (currentChar == '(') {
       token = new LeftParenToken();
+      openParens++;
     } else if (currentChar == ')') {
       token = new RightParenToken();
+      openParens--;
     } else {
       throw new IllegalArgumentException(currentChar + NOT_PAREN_ERROR_MESSAGE);
     }
