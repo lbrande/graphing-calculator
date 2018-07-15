@@ -1,6 +1,7 @@
 package se.lovebrandefelt.graphingcalculator;
 
 import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import se.lovebrandefelt.graphingcalculator.token.BinaryOperatorTokens;
@@ -18,7 +19,7 @@ class DefaultExpressionParser implements ExpressionParser {
 
   private String expression;
   private Matcher numericValueMatcher;
-  private ArrayDeque<Token> tokens;
+  private Deque<Token> tokens;
   private int expressionIndex;
   private int openParens;
 

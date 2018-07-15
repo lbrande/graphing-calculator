@@ -1,6 +1,5 @@
 package se.lovebrandefelt.graphingcalculator;
 
-import java.util.ArrayList;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.Test;
@@ -13,7 +12,6 @@ import se.lovebrandefelt.graphingcalculator.token.MulToken;
 import se.lovebrandefelt.graphingcalculator.token.PowToken;
 import se.lovebrandefelt.graphingcalculator.token.RightParenToken;
 import se.lovebrandefelt.graphingcalculator.token.SubToken;
-import se.lovebrandefelt.graphingcalculator.token.Token;
 
 class DefaultExpressionParserTest {
   private ExpressionParser parser;
@@ -147,14 +145,7 @@ class DefaultExpressionParserTest {
         expression,
         () ->
             Assertions.assertArrayEquals(
-                expressionToArray(expected), expressionToArray(parser.parse(expression))));
-  }
-
-  private Token[] expressionToArray(TokenizedExpression tokenizedExpression) {
-    var tokens = new ArrayList<Token>();
-    while (tokenizedExpression.hasNext()) {
-      tokens.add(tokenizedExpression.next());
-    }
-    return tokens.toArray(new Token[] {});
+                TestUtils.expressionToArray(expected),
+                TestUtils.expressionToArray(parser.parse(expression))));
   }
 }

@@ -2,6 +2,7 @@ package se.lovebrandefelt.graphingcalculator;
 
 import java.util.ArrayDeque;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.Queue;
 import se.lovebrandefelt.graphingcalculator.token.Token;
 
@@ -24,5 +25,10 @@ class DefaultTokenizedExpression implements TokenizedExpression {
   @Override
   public boolean hasNext() {
     return !tokens.isEmpty();
+  }
+
+  @Override
+  public Iterator<Token> iterator() {
+    return tokens.iterator();
   }
 }

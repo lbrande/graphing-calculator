@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public abstract class Token {
   private static final String NOT_NUMERIC_ERROR_MESSAGE = "Token is non-numeric.";
-  private static final String NOT_BINARY_OPERATOR_ERROR_MESSAGE = "Token is not a binary operator";
+  private static final String NOT_BINARY_OPERATOR_ERROR_MESSAGE = "Token is not a binary operator.";
 
   public boolean isNumeric() {
     return false;
