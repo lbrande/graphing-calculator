@@ -58,19 +58,19 @@ class DefaultExpressionParserTest {
               new DoubleToken(5),
               new AddToken(),
               new DoubleToken(7),
-              new SubToken(),
+              new MulToken(),
               new DoubleToken(3)),
-          "5 + 7 - 3"),
+          "5 + 7 * 3"),
       newParseTest(
           new DefaultTokenizedExpression(
               new DoubleToken(3),
-              new MulToken(),
-              new DoubleToken(4),
-              new DivToken(),
+              new SubToken(),
               new DoubleToken(4),
               new PowToken(),
-              new DoubleToken(2)),
-          "3 * 4 / 4 ^ 2")
+              new DoubleToken(2),
+              new DivToken(),
+              new DoubleToken(4)),
+          "3 - 4 ^ 2 / 4")
     };
   }
 

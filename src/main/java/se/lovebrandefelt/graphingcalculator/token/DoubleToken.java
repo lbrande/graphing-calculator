@@ -35,4 +35,9 @@ public class DoubleToken extends Token {
   public int hashCode() {
     return Objects.hash(value);
   }
+
+  @Override
+  public String toString() {
+    return String.valueOf(value);
+  }
 }

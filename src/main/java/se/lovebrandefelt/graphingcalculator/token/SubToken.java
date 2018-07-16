@@ -10,4 +10,9 @@ public class SubToken extends Token {
   public double evaluate(double firstOperand, double secondOperand) {
     return firstOperand - secondOperand;
   }
+
+  @Override
+  public String toString() {
+    return "-";
+  }
 }

@@ -40,6 +40,30 @@ class DefaultExpressionConverterTest {
     };
   }
 
+  @TestFactory
+  DynamicTest[] infixToPostfix_expressionWithBinaryOperations_returnsThatExpressionInPostfix() {
+    return new DynamicTest[] {
+      newConverterTest(
+          new DefaultTokenizedExpression(
+              new DoubleToken(5),
+              new DoubleToken(7),
+              new DoubleToken(3),
+              new MulToken(),
+              new AddToken()),
+          "5 + 7 * 3"),
+      newConverterTest(
+          new DefaultTokenizedExpression(
+              new DoubleToken(3),
+              new DoubleToken(4),
+              new DoubleToken(2),
+              new PowToken(),
+              new DoubleToken(4),
+              new DivToken(),
+              new SubToken()),
+          "3 - 4 ^ 2 / 4")
+    };
+  }
+
   private DynamicTest newConverterTest(TokenizedExpression expected, String expression) {
     return DynamicTest.dynamicTest(
         expression,
