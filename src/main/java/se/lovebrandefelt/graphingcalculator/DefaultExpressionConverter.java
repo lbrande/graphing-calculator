@@ -1,8 +1,7 @@
 package se.lovebrandefelt.graphingcalculator;
 
 import java.util.ArrayDeque;
-import java.util.Deque;
-import java.util.Queue;
+import se.lovebrandefelt.graphingcalculator.token.Associativity;
 import se.lovebrandefelt.graphingcalculator.token.Token;
 
 class DefaultExpressionConverter implements ExpressionConverter {
@@ -11,20 +10,26 @@ class DefaultExpressionConverter implements ExpressionConverter {
 
   @Override
   public TokenizedExpression infixToPostfix(TokenizedExpression infixExpression) {
-    Queue<Token> tokens = new ArrayDeque<>();
-    Deque<Token> operators = new ArrayDeque<>();
+    var tokens = new ArrayDeque<Token>();
+    var operatorStack = new ArrayDeque<Token>();
 
     for (Token token : infixExpression) {
       if (token.isNumeric()) {
         tokens.add(token);
       } else if (token.isBinaryOperator()) {
-        operators.addFirst(token);
+        while (!operatorStack.isEmpty()
+            && (operatorStack.getFirst().getPrecedence() > token.getPrecedence()
+                || (operatorStack.getFirst().getPrecedence() == token.getPrecedence()
+                    && operatorStack.getFirst().getAssociativity() == Associativity.LEFT))) {
+          tokens.add(operatorStack.removeFirst());
+        }
+        operatorStack.addFirst(token);
       } else {
         throw new IllegalArgumentException(NO_TOKEN_TYPE_ERROR_MESSAGE);
       }
     }
 
-    tokens.addAll(operators);
+    tokens.addAll(operatorStack);
 
     return new DefaultTokenizedExpression(tokens);
   }

@@ -22,6 +22,14 @@ public abstract class Token {
     throw new UnsupportedOperationException(NOT_BINARY_OPERATOR_ERROR_MESSAGE);
   }
 
+  public int getPrecedence() {
+    throw new UnsupportedOperationException(NOT_BINARY_OPERATOR_ERROR_MESSAGE);
+  }
+
+  public Associativity getAssociativity() {
+    throw new UnsupportedOperationException(NOT_BINARY_OPERATOR_ERROR_MESSAGE);
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {

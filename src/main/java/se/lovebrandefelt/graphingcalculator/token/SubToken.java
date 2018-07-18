@@ -12,6 +12,16 @@ public class SubToken extends Token {
   }
 
   @Override
+  public int getPrecedence() {
+    return 0;
+  }
+
+  @Override
+  public Associativity getAssociativity() {
+    return Associativity.LEFT;
+  }
+
+  @Override
   public String toString() {
     return "-";
   }

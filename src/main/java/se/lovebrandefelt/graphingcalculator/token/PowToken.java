@@ -12,6 +12,16 @@ public class PowToken extends Token {
   }
 
   @Override
+  public int getPrecedence() {
+    return 2;
+  }
+
+  @Override
+  public Associativity getAssociativity() {
+    return Associativity.RIGHT;
+  }
+
+  @Override
   public String toString() {
     return "^";
   }

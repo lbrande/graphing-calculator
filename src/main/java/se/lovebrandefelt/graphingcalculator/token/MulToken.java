@@ -12,6 +12,16 @@ public class MulToken extends Token {
   }
 
   @Override
+  public int getPrecedence() {
+    return 1;
+  }
+
+  @Override
+  public Associativity getAssociativity() {
+    return Associativity.LEFT;
+  }
+
+  @Override
   public String toString() {
     return "*";
   }
