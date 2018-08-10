@@ -12,6 +12,7 @@ import se.lovebrandefelt.graphingcalculator.token.MulToken;
 import se.lovebrandefelt.graphingcalculator.token.PowToken;
 import se.lovebrandefelt.graphingcalculator.token.RightParenToken;
 import se.lovebrandefelt.graphingcalculator.token.SubToken;
+import se.lovebrandefelt.graphingcalculator.token.VariableToken;
 
 class DefaultExpressionParserTest {
   private ExpressionParser parser;
@@ -104,6 +105,38 @@ class DefaultExpressionParserTest {
     };
   }
 
+  @TestFactory
+  DynamicTest[] parse_expressionWithVariables_returnsThatExpression() {
+    return new DynamicTest[] {
+      newParseTest(
+          new DefaultTokenizedExpression(
+              new DoubleToken(5),
+              new AddToken(),
+              new LeftParenToken(),
+              new VariableToken('x'),
+              new SubToken(),
+              new DoubleToken(3),
+              new RightParenToken()),
+          "5 + (x - 3)",
+          'x'),
+      newParseTest(
+          new DefaultTokenizedExpression(
+              new DoubleToken(3),
+              new MulToken(),
+              new LeftParenToken(),
+              new LeftParenToken(),
+              new VariableToken('y'),
+              new DivToken(),
+              new DoubleToken(4),
+              new RightParenToken(),
+              new PowToken(),
+              new VariableToken('y'),
+              new RightParenToken()),
+          "3 * ((y / 4) ^ y)",
+          'y')
+    };
+  }
+
   @Test
   void parse_consecutiveNumbers_throwsException() {
     var expression = "0.11.1";
@@ -140,9 +173,12 @@ class DefaultExpressionParserTest {
     Assertions.assertThrows(IllegalArgumentException.class, () -> parser.parse(expression));
   }
 
-  private DynamicTest newParseTest(TokenizedExpression expected, String expression) {
+  private DynamicTest newParseTest(
+      TokenizedExpression expected, String expression, char... variables) {
     return DynamicTest.dynamicTest(
         expression,
-        () -> Assertions.assertArrayEquals(expected.toArray(), parser.parse(expression).toArray()));
+        () ->
+            Assertions.assertArrayEquals(
+                expected.toArray(), parser.parse(expression, variables).toArray()));
   }
 }

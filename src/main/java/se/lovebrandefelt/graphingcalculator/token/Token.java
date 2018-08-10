@@ -3,15 +3,19 @@ package se.lovebrandefelt.graphingcalculator.token;
 import java.util.Objects;
 
 public abstract class Token {
-  private static final String NOT_NUMERIC_ERROR_MESSAGE = "Token is non-numeric.";
-  private static final String NOT_BINARY_OPERATOR_ERROR_MESSAGE = "Token is not a binary operator.";
+  private static final String NOT_NUMERIC_ERROR_MESSAGE = " is non-numeric.";
+  private static final String NOT_BINARY_OPERATOR_ERROR_MESSAGE = " is not a binary operator.";
 
   public boolean isNumeric() {
     return false;
   }
 
   public double getNumericValue() {
-    throw new UnsupportedOperationException(NOT_NUMERIC_ERROR_MESSAGE);
+    throw new UnsupportedOperationException(toString() + NOT_NUMERIC_ERROR_MESSAGE);
+  }
+
+  public boolean isVariable() {
+    return false;
   }
 
   public boolean isBinaryOperator() {
@@ -19,15 +23,23 @@ public abstract class Token {
   }
 
   public double evaluate(double firstOperand, double secondOperand) {
-    throw new UnsupportedOperationException(NOT_BINARY_OPERATOR_ERROR_MESSAGE);
+    throw new UnsupportedOperationException(toString() + NOT_BINARY_OPERATOR_ERROR_MESSAGE);
   }
 
   public int getPrecedence() {
-    throw new UnsupportedOperationException(NOT_BINARY_OPERATOR_ERROR_MESSAGE);
+    throw new UnsupportedOperationException(toString() + NOT_BINARY_OPERATOR_ERROR_MESSAGE);
   }
 
   public Associativity getAssociativity() {
-    throw new UnsupportedOperationException(NOT_BINARY_OPERATOR_ERROR_MESSAGE);
+    throw new UnsupportedOperationException(toString() + NOT_BINARY_OPERATOR_ERROR_MESSAGE);
+  }
+
+  public boolean isLeftParen() {
+    return false;
+  }
+
+  public boolean isRightParen() {
+    return false;
   }
 
   @Override

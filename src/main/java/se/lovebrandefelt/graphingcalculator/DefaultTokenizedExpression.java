@@ -26,4 +26,9 @@ class DefaultTokenizedExpression implements TokenizedExpression {
   public Token[] toArray() {
     return tokens.toArray(new Token[] {});
   }
+
+  @Override
+  public String toString() {
+    return Arrays.toString(toArray());
+  }
 }

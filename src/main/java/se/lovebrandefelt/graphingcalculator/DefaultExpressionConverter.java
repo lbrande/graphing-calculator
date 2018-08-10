@@ -6,7 +6,8 @@ import se.lovebrandefelt.graphingcalculator.token.Token;
 
 class DefaultExpressionConverter implements ExpressionConverter {
   private static final String NO_TOKEN_TYPE_ERROR_MESSAGE =
-      "Token is not numeric nor a binary operator.";
+      " is not numeric nor a binary operator.";
+  private static final String MISMATCHED_PARENS_ERROR_MESSAGE = " contains mismatched parenthesis";
 
   @Override
   public TokenizedExpression infixToPostfix(TokenizedExpression infixExpression) {
@@ -14,18 +15,30 @@ class DefaultExpressionConverter implements ExpressionConverter {
     var operatorStack = new ArrayDeque<Token>();
 
     for (Token token : infixExpression) {
-      if (token.isNumeric()) {
+      if (token.isNumeric() || token.isVariable()) {
         tokens.add(token);
       } else if (token.isBinaryOperator()) {
         while (!operatorStack.isEmpty()
+            && !operatorStack.getFirst().isLeftParen()
             && (operatorStack.getFirst().getPrecedence() > token.getPrecedence()
                 || (operatorStack.getFirst().getPrecedence() == token.getPrecedence()
                     && operatorStack.getFirst().getAssociativity() == Associativity.LEFT))) {
           tokens.add(operatorStack.removeFirst());
         }
         operatorStack.addFirst(token);
+      } else if (token.isLeftParen()) {
+        operatorStack.addFirst(token);
+      } else if (token.isRightParen()) {
+        while (!operatorStack.isEmpty() && !operatorStack.getFirst().isLeftParen()) {
+          tokens.add(operatorStack.removeFirst());
+        }
+        if (!operatorStack.isEmpty() && operatorStack.getFirst().isLeftParen()) {
+          operatorStack.removeFirst();
+        } else {
+          throw new IllegalArgumentException(infixExpression + MISMATCHED_PARENS_ERROR_MESSAGE);
+        }
       } else {
-        throw new IllegalArgumentException(NO_TOKEN_TYPE_ERROR_MESSAGE);
+        throw new IllegalArgumentException(token + NO_TOKEN_TYPE_ERROR_MESSAGE);
       }
     }
 

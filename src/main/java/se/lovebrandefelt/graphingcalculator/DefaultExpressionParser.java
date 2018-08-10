@@ -9,6 +9,7 @@ import se.lovebrandefelt.graphingcalculator.token.DoubleToken;
 import se.lovebrandefelt.graphingcalculator.token.LeftParenToken;
 import se.lovebrandefelt.graphingcalculator.token.RightParenToken;
 import se.lovebrandefelt.graphingcalculator.token.Token;
+import se.lovebrandefelt.graphingcalculator.token.VariableToken;
 
 class DefaultExpressionParser implements ExpressionParser {
   private static final String NUMERIC_VALUE_REGEX = "-?\\d+(?:\\.\\d+)?";
@@ -16,16 +17,18 @@ class DefaultExpressionParser implements ExpressionParser {
 
   private static final String ILLEGAL_EXPRESSION_ERROR_MESSAGE = " is not a legal expression.";
   private static final String NOT_PAREN_ERROR_MESSAGE = " is not a parenthesis.";
+  private static final String NOT_VARIABLE_ERROR_MESSAGE = " is not a variable.";
 
   private String expression;
+  private char[] variables;
   private Matcher numericValueMatcher;
   private Deque<Token> tokens;
   private int expressionIndex;
   private int openParens;
 
   @Override
-  public TokenizedExpression parse(String expression) {
-    initParsing(expression);
+  public TokenizedExpression parse(String expression, char... variables) {
+    initParsing(expression, variables);
 
     while (expressionIndex < expression.length()) {
       tokens.addLast(parseNextToken());
@@ -38,8 +41,9 @@ class DefaultExpressionParser implements ExpressionParser {
     return new DefaultTokenizedExpression(tokens);
   }
 
-  private void initParsing(String expression) {
+  private void initParsing(String expression, char... variables) {
     this.expression = expression.trim();
+    this.variables = variables;
     numericValueMatcher = NUMERIC_VALUE_PATTERN.matcher(this.expression);
     tokens = new ArrayDeque<>();
     expressionIndex = 0;
@@ -54,6 +58,8 @@ class DefaultExpressionParser implements ExpressionParser {
       return parseBinaryOperator();
     } else if (canParseNumericValue()) {
       return parseNumericValue();
+    } else if (canParseVariable()) {
+      return parseVariable();
     } else {
       throw newIllegalExpressionException();
     }
@@ -77,7 +83,7 @@ class DefaultExpressionParser implements ExpressionParser {
   private boolean canParseNumericValue() {
     return (tokens.isEmpty()
             || tokens.getLast().isBinaryOperator()
-            || tokens.getLast() instanceof LeftParenToken)
+            || tokens.getLast().isLeftParen())
         && numericValueMatcher.find(expressionIndex)
         && numericValueMatcher.start() == expressionIndex;
   }
@@ -92,11 +98,39 @@ class DefaultExpressionParser implements ExpressionParser {
     return token;
   }
 
+  private boolean canParseVariable() {
+    var currentChar = expression.charAt(expressionIndex);
+
+    return (tokens.isEmpty()
+            || tokens.getLast().isBinaryOperator()
+            || tokens.getLast().isLeftParen())
+        && isVariable(currentChar);
+  }
+
+  private boolean isVariable(char currentChar) {
+    for (char variable : variables) {
+      if (currentChar == variable) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  private Token parseVariable() {
+    var currentChar = expression.charAt(expressionIndex);
+    var token = new VariableToken(currentChar);
+
+    expressionIndex++;
+    return token;
+  }
+
   private boolean canParseBinaryOperator() {
     var currentChar = expression.charAt(expressionIndex);
 
     return !tokens.isEmpty()
-        && (tokens.getLast().isNumeric() || tokens.getLast() instanceof RightParenToken)
+        && (tokens.getLast().isNumeric()
+            || tokens.getLast().isVariable()
+            || tokens.getLast().isRightParen())
         && BinaryOperatorTokens.isBinaryOperator(currentChar);
   }
 
@@ -114,7 +148,7 @@ class DefaultExpressionParser implements ExpressionParser {
     return currentChar == '('
         || (currentChar == ')'
             && !tokens.isEmpty()
-            && !(tokens.getLast() instanceof LeftParenToken)
+            && !(tokens.getLast().isLeftParen())
             && !tokens.getLast().isBinaryOperator()
             && openParens > 0);
   }

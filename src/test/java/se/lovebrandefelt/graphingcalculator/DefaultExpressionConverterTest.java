@@ -9,6 +9,7 @@ import se.lovebrandefelt.graphingcalculator.token.DoubleToken;
 import se.lovebrandefelt.graphingcalculator.token.MulToken;
 import se.lovebrandefelt.graphingcalculator.token.PowToken;
 import se.lovebrandefelt.graphingcalculator.token.SubToken;
+import se.lovebrandefelt.graphingcalculator.token.VariableToken;
 
 class DefaultExpressionConverterTest {
   private ExpressionParser parser;
@@ -64,11 +65,63 @@ class DefaultExpressionConverterTest {
     };
   }
 
-  private DynamicTest newConverterTest(TokenizedExpression expected, String expression) {
+  @TestFactory
+  DynamicTest[] infixToPostfix_expressionWithParenthesis_returnsThatExpressionInPostfix() {
+    return new DynamicTest[] {
+      newConverterTest(
+          new DefaultTokenizedExpression(
+              new DoubleToken(5),
+              new DoubleToken(7),
+              new DoubleToken(3),
+              new SubToken(),
+              new AddToken()),
+          "5 + (7 - 3)"),
+      newConverterTest(
+          new DefaultTokenizedExpression(
+              new DoubleToken(3),
+              new DoubleToken(4),
+              new DoubleToken(4),
+              new DivToken(),
+              new DoubleToken(2),
+              new PowToken(),
+              new MulToken()),
+          "3 * ((4 / 4) ^ 2)")
+    };
+  }
+
+  @TestFactory
+  DynamicTest[] infixToPostfix_expressionWithVariables_returnsThatExpressionInPostfix() {
+    return new DynamicTest[] {
+      newConverterTest(
+          new DefaultTokenizedExpression(
+              new DoubleToken(5),
+              new VariableToken('x'),
+              new DoubleToken(3),
+              new SubToken(),
+              new AddToken()),
+          "5 + (x - 3)",
+          'x'),
+      newConverterTest(
+          new DefaultTokenizedExpression(
+              new DoubleToken(3),
+              new VariableToken('y'),
+              new DoubleToken(4),
+              new DivToken(),
+              new VariableToken('y'),
+              new PowToken(),
+              new MulToken()),
+          "3 * ((y / 4) ^ y)",
+          'y')
+    };
+  }
+
+  private DynamicTest newConverterTest(
+      TokenizedExpression expected, String expression, char... variables) {
     return DynamicTest.dynamicTest(
         expression,
         () ->
             Assertions.assertArrayEquals(
-                expected.toArray(), converter.infixToPostfix(parser.parse(expression)).toArray()));
+                expected.toArray(),
+                converter.infixToPostfix(parser.parse(expression, variables)).toArray()));
   }
 }
