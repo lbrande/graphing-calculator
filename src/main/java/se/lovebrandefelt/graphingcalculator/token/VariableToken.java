@@ -1,10 +1,10 @@
 package se.lovebrandefelt.graphingcalculator.token;
 
 public class VariableToken extends Token {
-  private char variable;
+  private char character;
 
   public VariableToken(char variable) {
-    this.variable = variable;
+    this.character = variable;
   }
 
   @Override
@@ -13,7 +13,12 @@ public class VariableToken extends Token {
   }
 
   @Override
+  public char getVariableChar() {
+    return character;
+  }
+
+  @Override
   public String toString() {
-    return String.valueOf(variable);
+    return String.valueOf(character);
   }
 }

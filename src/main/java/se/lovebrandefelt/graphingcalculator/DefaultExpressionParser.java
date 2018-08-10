@@ -17,7 +17,6 @@ class DefaultExpressionParser implements ExpressionParser {
 
   private static final String ILLEGAL_EXPRESSION_ERROR_MESSAGE = " is not a legal expression.";
   private static final String NOT_PAREN_ERROR_MESSAGE = " is not a parenthesis.";
-  private static final String NOT_VARIABLE_ERROR_MESSAGE = " is not a variable.";
 
   private String expression;
   private char[] variables;
@@ -38,7 +37,7 @@ class DefaultExpressionParser implements ExpressionParser {
       throw newIllegalExpressionException();
     }
 
-    return new DefaultTokenizedExpression(tokens);
+    return new DefaultTokenizedExpression(tokens, variables);
   }
 
   private void initParsing(String expression, char... variables) {
@@ -107,9 +106,9 @@ class DefaultExpressionParser implements ExpressionParser {
         && isVariable(currentChar);
   }
 
-  private boolean isVariable(char currentChar) {
+  private boolean isVariable(char character) {
     for (char variable : variables) {
-      if (currentChar == variable) {
+      if (character == variable) {
         return true;
       }
     }

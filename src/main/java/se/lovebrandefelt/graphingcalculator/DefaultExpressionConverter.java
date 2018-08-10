@@ -7,7 +7,7 @@ import se.lovebrandefelt.graphingcalculator.token.Token;
 class DefaultExpressionConverter implements ExpressionConverter {
   private static final String NO_TOKEN_TYPE_ERROR_MESSAGE =
       " is not numeric nor a binary operator.";
-  private static final String MISMATCHED_PARENS_ERROR_MESSAGE = " contains mismatched parenthesis";
+  private static final String MISMATCHED_PARENS_ERROR_MESSAGE = " contains mismatched parenthesis.";
 
   @Override
   public TokenizedExpression infixToPostfix(TokenizedExpression infixExpression) {
@@ -44,6 +44,6 @@ class DefaultExpressionConverter implements ExpressionConverter {
 
     tokens.addAll(operatorStack);
 
-    return new DefaultTokenizedExpression(tokens);
+    return new DefaultTokenizedExpression(tokens, infixExpression.variables());
   }
 }

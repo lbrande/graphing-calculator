@@ -24,20 +24,17 @@ class DefaultExpressionConverterTest {
   DynamicTest[] infixToPostfix_binaryOperation_returnsThatOperationInPostfix() {
     return new DynamicTest[] {
       newConverterTest(
-          new DefaultTokenizedExpression(new DoubleToken(5), new DoubleToken(7), new AddToken()),
-          "5 + 7"),
+          TestUtils.newExpression(new DoubleToken(5), new DoubleToken(7), new AddToken()), "5 + 7"),
       newConverterTest(
-          new DefaultTokenizedExpression(new DoubleToken(15), new DoubleToken(3), new SubToken()),
+          TestUtils.newExpression(new DoubleToken(15), new DoubleToken(3), new SubToken()),
           "15 - 3"),
       newConverterTest(
-          new DefaultTokenizedExpression(new DoubleToken(3), new DoubleToken(4), new MulToken()),
-          "3 * 4"),
+          TestUtils.newExpression(new DoubleToken(3), new DoubleToken(4), new MulToken()), "3 * 4"),
       newConverterTest(
-          new DefaultTokenizedExpression(new DoubleToken(12), new DoubleToken(4), new DivToken()),
+          TestUtils.newExpression(new DoubleToken(12), new DoubleToken(4), new DivToken()),
           "12 / 4"),
       newConverterTest(
-          new DefaultTokenizedExpression(new DoubleToken(4), new DoubleToken(2), new PowToken()),
-          "4 ^ 2"),
+          TestUtils.newExpression(new DoubleToken(4), new DoubleToken(2), new PowToken()), "4 ^ 2"),
     };
   }
 
@@ -45,7 +42,7 @@ class DefaultExpressionConverterTest {
   DynamicTest[] infixToPostfix_expressionWithBinaryOperations_returnsThatExpressionInPostfix() {
     return new DynamicTest[] {
       newConverterTest(
-          new DefaultTokenizedExpression(
+          TestUtils.newExpression(
               new DoubleToken(5),
               new DoubleToken(7),
               new DoubleToken(3),
@@ -53,7 +50,7 @@ class DefaultExpressionConverterTest {
               new AddToken()),
           "5 + 7 * 3"),
       newConverterTest(
-          new DefaultTokenizedExpression(
+          TestUtils.newExpression(
               new DoubleToken(3),
               new DoubleToken(4),
               new DoubleToken(2),
@@ -69,7 +66,7 @@ class DefaultExpressionConverterTest {
   DynamicTest[] infixToPostfix_expressionWithParenthesis_returnsThatExpressionInPostfix() {
     return new DynamicTest[] {
       newConverterTest(
-          new DefaultTokenizedExpression(
+          TestUtils.newExpression(
               new DoubleToken(5),
               new DoubleToken(7),
               new DoubleToken(3),
@@ -77,7 +74,7 @@ class DefaultExpressionConverterTest {
               new AddToken()),
           "5 + (7 - 3)"),
       newConverterTest(
-          new DefaultTokenizedExpression(
+          TestUtils.newExpression(
               new DoubleToken(3),
               new DoubleToken(4),
               new DoubleToken(4),
@@ -93,7 +90,7 @@ class DefaultExpressionConverterTest {
   DynamicTest[] infixToPostfix_expressionWithVariables_returnsThatExpressionInPostfix() {
     return new DynamicTest[] {
       newConverterTest(
-          new DefaultTokenizedExpression(
+          TestUtils.newExpression(
               new DoubleToken(5),
               new VariableToken('x'),
               new DoubleToken(3),
@@ -102,7 +99,7 @@ class DefaultExpressionConverterTest {
           "5 + (x - 3)",
           'x'),
       newConverterTest(
-          new DefaultTokenizedExpression(
+          TestUtils.newExpression(
               new DoubleToken(3),
               new VariableToken('y'),
               new DoubleToken(4),

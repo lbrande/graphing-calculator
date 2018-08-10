@@ -4,6 +4,7 @@ import java.util.Objects;
 
 public abstract class Token {
   private static final String NOT_NUMERIC_ERROR_MESSAGE = " is non-numeric.";
+  private static final String NOT_VARIABLE_ERROR_MESSAGE = " is not a variable.";
   private static final String NOT_BINARY_OPERATOR_ERROR_MESSAGE = " is not a binary operator.";
 
   public boolean isNumeric() {
@@ -16,6 +17,10 @@ public abstract class Token {
 
   public boolean isVariable() {
     return false;
+  }
+
+  public char getVariableChar() {
+    throw new UnsupportedOperationException(toString() + NOT_VARIABLE_ERROR_MESSAGE);
   }
 
   public boolean isBinaryOperator() {
