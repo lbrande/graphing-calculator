@@ -69,7 +69,6 @@ class DefaultExpressionConverterTest {
         expression,
         () ->
             Assertions.assertArrayEquals(
-                TestUtils.expressionToArray(expected),
-                TestUtils.expressionToArray(converter.infixToPostfix(parser.parse(expression)))));
+                expected.toArray(), converter.infixToPostfix(parser.parse(expression)).toArray()));
   }
 }

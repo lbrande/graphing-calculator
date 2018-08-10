@@ -18,17 +18,12 @@ class DefaultTokenizedExpression implements TokenizedExpression {
   }
 
   @Override
-  public Token next() {
-    return tokens.remove();
-  }
-
-  @Override
-  public boolean hasNext() {
-    return !tokens.isEmpty();
-  }
-
-  @Override
   public Iterator<Token> iterator() {
     return tokens.iterator();
+  }
+
+  @Override
+  public Token[] toArray() {
+    return tokens.toArray(new Token[] {});
   }
 }

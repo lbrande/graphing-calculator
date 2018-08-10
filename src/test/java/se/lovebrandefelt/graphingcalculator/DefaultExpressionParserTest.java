@@ -143,9 +143,6 @@ class DefaultExpressionParserTest {
   private DynamicTest newParseTest(TokenizedExpression expected, String expression) {
     return DynamicTest.dynamicTest(
         expression,
-        () ->
-            Assertions.assertArrayEquals(
-                TestUtils.expressionToArray(expected),
-                TestUtils.expressionToArray(parser.parse(expression))));
+        () -> Assertions.assertArrayEquals(expected.toArray(), parser.parse(expression).toArray()));
   }
 }
