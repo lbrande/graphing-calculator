@@ -52,41 +52,62 @@ public class PlotCanvas extends Canvas {
   private void paintAxes() {
     getGraphicsContext2D().setStroke(AXIS_COLOR);
     getGraphicsContext2D().setFill(AXIS_COLOR);
-    getGraphicsContext2D().strokeLine(toScreenX(0), toScreenY(minY), toScreenX(0), toScreenY(maxY));
-    getGraphicsContext2D()
-        .fillPolygon(
-            new double[] {
-              toScreenX(0) - AXIS_ARROW_SIZE / 2, toScreenX(0), toScreenX(0) + AXIS_ARROW_SIZE / 2
-            },
-            new double[] {AXIS_ARROW_SIZE, 0, AXIS_ARROW_SIZE},
-            3);
-    getGraphicsContext2D().setTextAlign(TextAlignment.LEFT);
-    getGraphicsContext2D().setTextBaseline(VPos.BOTTOM);
-    if (minY != 0) {
+    if (toScreenX(0) < 0 || toScreenX(0) > getWidth()) {
+      getGraphicsContext2D().setTextAlign(TextAlignment.CENTER);
+      getGraphicsContext2D().setTextBaseline(VPos.BOTTOM);
+      getGraphicsContext2D().fillText(String.valueOf(minY), getWidth() / 2, getHeight());
+      getGraphicsContext2D().setTextBaseline(VPos.TOP);
+      getGraphicsContext2D().fillText(String.valueOf(maxY), getWidth() / 2, 0);
+    } else {
       getGraphicsContext2D()
-          .fillText(String.valueOf(minY), toScreenX(0) + AXIS_ARROW_SIZE / 2, getHeight());
-    }
-    getGraphicsContext2D().setTextBaseline(VPos.TOP);
-    if (maxY != 0) {
-      getGraphicsContext2D().fillText(String.valueOf(maxY), toScreenX(0) + AXIS_ARROW_SIZE / 2, 0);
-    }
-    getGraphicsContext2D().strokeLine(toScreenX(minX), toScreenY(0), toScreenX(maxX), toScreenY(0));
-    getGraphicsContext2D()
-        .fillPolygon(
-            new double[] {getWidth() - AXIS_ARROW_SIZE, getWidth(), getWidth() - AXIS_ARROW_SIZE},
-            new double[] {
-              toScreenY(0) - AXIS_ARROW_SIZE / 2, toScreenY(0), toScreenY(0) + AXIS_ARROW_SIZE / 2
-            },
-            3);
-    getGraphicsContext2D().setTextBaseline(VPos.BOTTOM);
-    getGraphicsContext2D().setTextAlign(TextAlignment.LEFT);
-    if (minX != 0) {
-      getGraphicsContext2D().fillText(String.valueOf(minX), 0, toScreenY(0) - AXIS_ARROW_SIZE / 2);
-    }
-    getGraphicsContext2D().setTextAlign(TextAlignment.RIGHT);
-    if (maxX != 0) {
+          .strokeLine(toScreenX(0), toScreenY(minY), toScreenX(0), toScreenY(maxY));
       getGraphicsContext2D()
-          .fillText(String.valueOf(maxX), getWidth(), toScreenY(0) - AXIS_ARROW_SIZE / 2);
+          .fillPolygon(
+              new double[] {
+                toScreenX(0) - AXIS_ARROW_SIZE / 2, toScreenX(0), toScreenX(0) + AXIS_ARROW_SIZE / 2
+              },
+              new double[] {AXIS_ARROW_SIZE, 0, AXIS_ARROW_SIZE},
+              3);
+      getGraphicsContext2D().setTextAlign(TextAlignment.LEFT);
+      getGraphicsContext2D().setTextBaseline(VPos.BOTTOM);
+      if (minY != 0) {
+        getGraphicsContext2D()
+            .fillText(String.valueOf(minY), toScreenX(0) + AXIS_ARROW_SIZE / 2, getHeight());
+      }
+      getGraphicsContext2D().setTextBaseline(VPos.TOP);
+      if (maxY != 0) {
+        getGraphicsContext2D()
+            .fillText(String.valueOf(maxY), toScreenX(0) + AXIS_ARROW_SIZE / 2, 0);
+      }
+    }
+
+    if (toScreenY(0) < 0 || toScreenY(0) > getHeight()) {
+      getGraphicsContext2D().setTextBaseline(VPos.CENTER);
+      getGraphicsContext2D().setTextAlign(TextAlignment.LEFT);
+      getGraphicsContext2D().fillText(String.valueOf(minX), 0, getHeight() / 2);
+      getGraphicsContext2D().setTextAlign(TextAlignment.RIGHT);
+      getGraphicsContext2D().fillText(String.valueOf(maxX), getWidth(), getHeight() / 2);
+    } else {
+      getGraphicsContext2D()
+          .strokeLine(toScreenX(minX), toScreenY(0), toScreenX(maxX), toScreenY(0));
+      getGraphicsContext2D()
+          .fillPolygon(
+              new double[] {getWidth() - AXIS_ARROW_SIZE, getWidth(), getWidth() - AXIS_ARROW_SIZE},
+              new double[] {
+                toScreenY(0) - AXIS_ARROW_SIZE / 2, toScreenY(0), toScreenY(0) + AXIS_ARROW_SIZE / 2
+              },
+              3);
+      getGraphicsContext2D().setTextBaseline(VPos.BOTTOM);
+      getGraphicsContext2D().setTextAlign(TextAlignment.LEFT);
+      if (minX != 0) {
+        getGraphicsContext2D()
+            .fillText(String.valueOf(minX), 0, toScreenY(0) - AXIS_ARROW_SIZE / 2);
+      }
+      getGraphicsContext2D().setTextAlign(TextAlignment.RIGHT);
+      if (maxX != 0) {
+        getGraphicsContext2D()
+            .fillText(String.valueOf(maxX), getWidth(), toScreenY(0) - AXIS_ARROW_SIZE / 2);
+      }
     }
   }
 
