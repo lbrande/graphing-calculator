@@ -1,0 +1,16 @@
+plugins {
+    id 'java'
+    id 'checkstyle'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile rootProject
+}
+
+checkstyle {
+    toolVersion checkstyleVersion
+}

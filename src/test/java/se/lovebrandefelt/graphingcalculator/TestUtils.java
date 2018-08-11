@@ -6,6 +6,6 @@ import se.lovebrandefelt.graphingcalculator.token.Token;
 
 abstract class TestUtils {
   static TokenizedExpression newExpression(Token... tokens) {
-    return new DefaultTokenizedExpression(new ArrayDeque<>(Arrays.asList(tokens)));
+    return new TokenizedExpression(new ArrayDeque<>(Arrays.asList(tokens)));
   }
 }

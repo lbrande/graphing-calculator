@@ -16,6 +16,7 @@ class DefaultExpressionParser implements ExpressionParser {
   private static final Pattern NUMERIC_VALUE_PATTERN = Pattern.compile(NUMERIC_VALUE_REGEX);
 
   private static final String ILLEGAL_EXPRESSION_ERROR_MESSAGE = " is not a legal expression.";
+  private static final String NOT_VARIABLE_ERROR_MESSAGE = " is not a variable.";
   private static final String NOT_PAREN_ERROR_MESSAGE = " is not a parenthesis.";
 
   private String expression;
@@ -29,7 +30,7 @@ class DefaultExpressionParser implements ExpressionParser {
   public TokenizedExpression parse(String expression, char... variables) {
     initParsing(expression, variables);
 
-    while (expressionIndex < expression.length()) {
+    while (expressionIndex < this.expression.length()) {
       tokens.addLast(parseNextToken());
     }
 
@@ -37,7 +38,7 @@ class DefaultExpressionParser implements ExpressionParser {
       throw newIllegalExpressionException();
     }
 
-    return new DefaultTokenizedExpression(tokens, variables);
+    return new TokenizedExpression(tokens, variables);
   }
 
   private void initParsing(String expression, char... variables) {
@@ -65,7 +66,7 @@ class DefaultExpressionParser implements ExpressionParser {
   }
 
   private boolean isExpressionIllegal() {
-    return tokens.getLast().isBinaryOperator() || openParens > 0;
+    return (!tokens.isEmpty() && tokens.getLast().isBinaryOperator()) || openParens > 0;
   }
 
   private IllegalArgumentException newIllegalExpressionException() {
@@ -117,7 +118,12 @@ class DefaultExpressionParser implements ExpressionParser {
 
   private Token parseVariable() {
     var currentChar = expression.charAt(expressionIndex);
-    var token = new VariableToken(currentChar);
+    Token token;
+    if (isVariable(currentChar)) {
+      token = new VariableToken(currentChar);
+    } else {
+      throw new IllegalArgumentException(NOT_VARIABLE_ERROR_MESSAGE);
+    }
 
     expressionIndex++;
     return token;

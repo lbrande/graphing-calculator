@@ -5,8 +5,7 @@ import se.lovebrandefelt.graphingcalculator.token.Associativity;
 import se.lovebrandefelt.graphingcalculator.token.Token;
 
 class DefaultExpressionConverter implements ExpressionConverter {
-  private static final String NO_TOKEN_TYPE_ERROR_MESSAGE =
-      " is not numeric nor a binary operator.";
+  private static final String NO_TOKEN_TYPE_ERROR_MESSAGE = " has no type.";
   private static final String MISMATCHED_PARENS_ERROR_MESSAGE = " contains mismatched parenthesis.";
 
   @Override
@@ -44,6 +43,6 @@ class DefaultExpressionConverter implements ExpressionConverter {
 
     tokens.addAll(operatorStack);
 
-    return new DefaultTokenizedExpression(tokens, infixExpression.variables());
+    return new TokenizedExpression(tokens, infixExpression.variables());
   }
 }

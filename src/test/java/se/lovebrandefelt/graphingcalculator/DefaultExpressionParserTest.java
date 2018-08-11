@@ -1,5 +1,6 @@
 package se.lovebrandefelt.graphingcalculator;
 
+import java.util.Arrays;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.Test;
@@ -173,7 +174,7 @@ class DefaultExpressionParserTest {
   private DynamicTest newParseTest(
       TokenizedExpression expected, String expression, char... variables) {
     return DynamicTest.dynamicTest(
-        expression,
+        expression + Arrays.toString(variables),
         () ->
             Assertions.assertArrayEquals(
                 expected.toArray(), parser.parse(expression, variables).toArray()));

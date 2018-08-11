@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.VBox?>
+<?import se.lovebrandefelt.graphingcalculator.gui.PlotCanvas?>
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            xmlns="http://javafx.com/javafx"
+            fx:controller="se.lovebrandefelt.graphingcalculator.gui.GuiController"
+            styleClass="parent">
+    <center>
+        <PlotCanvas fx:id="plotCanvas" width="800" height="600"/>
+    </center>
+    <right>
+        <VBox>
+            <Label text="Function"/>
+            <TextField fx:id="functionField" onKeyTyped="#onFunctionTextFieldChange"/>
+            <GridPane>
+                <Label text="MinX" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                <TextField fx:id="minX" styleClass="number-field" GridPane.rowIndex="0"
+                           GridPane.columnIndex="1"
+                           onKeyTyped="#onViewChange"
+                           text="-100"/>
+                <Label text="MaxX" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
+                <TextField fx:id="maxX" styleClass="number-field" GridPane.rowIndex="0"
+                           GridPane.columnIndex="3"
+                           onKeyTyped="#onViewChange"
+                           text="100"/>
+                <Label text="MinY" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                <TextField fx:id="minY" styleClass="number-field" GridPane.rowIndex="1"
+                           GridPane.columnIndex="1"
+                           onKeyTyped="#onViewChange"
+                           text="-100"/>
+                <Label text="MaxY" GridPane.rowIndex="1" GridPane.columnIndex="2"/>
+                <TextField fx:id="maxY" styleClass="number-field" GridPane.rowIndex="1"
+                           GridPane.columnIndex="3"
+                           onKeyTyped="#onViewChange"
+                           text="100"/>
+                <Label text="StepX" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                <TextField fx:id="stepX" styleClass="number-field" GridPane.rowIndex="2"
+                           GridPane.columnIndex="1"
+                           onKeyTyped="#onViewChange"
+                           text="0.1"/>
+            </GridPane>
+        </VBox>
+    </right>
+</BorderPane>

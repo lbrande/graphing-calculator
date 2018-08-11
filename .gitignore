@@ -2,3 +2,5 @@
 .idea/
 build/
 out/
+gui/build/
+gui/out/

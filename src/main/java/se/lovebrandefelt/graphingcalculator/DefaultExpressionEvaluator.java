@@ -9,6 +9,7 @@ class DefaultExpressionEvaluator implements ExpressionEvaluator {
       " is not a legal postfix expression.";
   private static final String INCORRECT_NUMBER_OF_ARGS_SUPPLIED_ERROR_MESSAGE =
       "%d arguments was supplied but exactly %d was needed";
+  private static final String NOT_VARIABLE_ERROR_MESSAGE = " is not a variable.";
 
   private char[] variables;
   private double[] args;
@@ -58,6 +59,6 @@ class DefaultExpressionEvaluator implements ExpressionEvaluator {
         return args[i];
       }
     }
-    throw new RuntimeException();
+    throw new IllegalArgumentException(variable.getVariableChar() + NOT_VARIABLE_ERROR_MESSAGE);
   }
 }

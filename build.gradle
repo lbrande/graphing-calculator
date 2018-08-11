@@ -3,15 +3,17 @@ plugins {
     id 'checkstyle'
 }
 
-version '1.0-SNAPSHOT'
-
-sourceCompatibility = 1.10
-
 ext {
     jUnitGroup = 'org.junit.jupiter'
     jUnitVersion = '5.2.0'
 
     checkstyleVersion = '8.11'
+}
+
+allprojects {
+    version '1.0-SNAPSHOT'
+
+    sourceCompatibility = 1.10
 }
 
 repositories {

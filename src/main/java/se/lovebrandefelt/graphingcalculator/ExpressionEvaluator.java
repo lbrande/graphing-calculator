@@ -1,5 +1,5 @@
 package se.lovebrandefelt.graphingcalculator;
 
-public interface ExpressionEvaluator {
+interface ExpressionEvaluator {
   double evaluate(TokenizedExpression postfixExpression, double... variableValues);
 }
