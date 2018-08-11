@@ -5,8 +5,9 @@ import se.lovebrandefelt.graphingcalculator.token.Associativity;
 import se.lovebrandefelt.graphingcalculator.token.Token;
 
 class DefaultExpressionConverter implements ExpressionConverter {
-  private static final String NO_TOKEN_TYPE_ERROR_MESSAGE = " has no type.";
-  private static final String MISMATCHED_PARENS_ERROR_MESSAGE = " contains mismatched parenthesis.";
+  private static final String NO_TOKEN_TYPE_ERROR_MESSAGE = "%s has no type.";
+  private static final String MISMATCHED_PARENS_ERROR_MESSAGE =
+      "%s contains mismatched parenthesis.";
 
   @Override
   public TokenizedExpression infixToPostfix(TokenizedExpression infixExpression) {
@@ -34,10 +35,12 @@ class DefaultExpressionConverter implements ExpressionConverter {
         if (!operatorStack.isEmpty() && operatorStack.getFirst().isLeftParen()) {
           operatorStack.removeFirst();
         } else {
-          throw new IllegalArgumentException(infixExpression + MISMATCHED_PARENS_ERROR_MESSAGE);
+          throw new IllegalArgumentException(
+              String.format(MISMATCHED_PARENS_ERROR_MESSAGE, infixExpression.toString()));
         }
       } else {
-        throw new IllegalArgumentException(token + NO_TOKEN_TYPE_ERROR_MESSAGE);
+        throw new IllegalArgumentException(
+            String.format(NO_TOKEN_TYPE_ERROR_MESSAGE, token.toString()));
       }
     }
 

@@ -6,10 +6,10 @@ import se.lovebrandefelt.graphingcalculator.token.VariableToken;
 
 class DefaultExpressionEvaluator implements ExpressionEvaluator {
   private static final String ILLEGAL_POSTFIX_EXPRESSION_ERROR_MESSAGE =
-      " is not a legal postfix expression.";
+      "%s is not a legal postfix expression.";
   private static final String INCORRECT_NUMBER_OF_ARGS_SUPPLIED_ERROR_MESSAGE =
       "%d arguments was supplied but exactly %d was needed";
-  private static final String NOT_VARIABLE_ERROR_MESSAGE = " is not a variable.";
+  private static final String NOT_VARIABLE_ERROR_MESSAGE = "%c is not a variable.";
 
   private char[] variables;
   private double[] args;
@@ -40,7 +40,8 @@ class DefaultExpressionEvaluator implements ExpressionEvaluator {
           evaluationStack.addFirst(token.evaluate(firstArg, secondArg));
         } else {
           throw new IllegalArgumentException(
-              postfixExpression + ILLEGAL_POSTFIX_EXPRESSION_ERROR_MESSAGE);
+              String.format(
+                  ILLEGAL_POSTFIX_EXPRESSION_ERROR_MESSAGE, postfixExpression.toString()));
         }
       }
     }
@@ -49,7 +50,7 @@ class DefaultExpressionEvaluator implements ExpressionEvaluator {
       return evaluationStack.getFirst();
     } else {
       throw new IllegalArgumentException(
-          postfixExpression + ILLEGAL_POSTFIX_EXPRESSION_ERROR_MESSAGE);
+          String.format(ILLEGAL_POSTFIX_EXPRESSION_ERROR_MESSAGE, postfixExpression.toString()));
     }
   }
 
@@ -59,6 +60,7 @@ class DefaultExpressionEvaluator implements ExpressionEvaluator {
         return args[i];
       }
     }
-    throw new IllegalArgumentException(variable.getVariableChar() + NOT_VARIABLE_ERROR_MESSAGE);
+    throw new IllegalArgumentException(
+        String.format(NOT_VARIABLE_ERROR_MESSAGE, variable.getVariableChar()));
   }
 }

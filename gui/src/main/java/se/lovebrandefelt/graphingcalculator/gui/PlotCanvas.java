@@ -3,6 +3,7 @@ package se.lovebrandefelt.graphingcalculator.gui;
 import javafx.geometry.VPos;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.paint.Color;
+import javafx.scene.text.TextAlignment;
 import se.lovebrandefelt.graphingcalculator.Function;
 
 public class PlotCanvas extends Canvas {
@@ -51,7 +52,6 @@ public class PlotCanvas extends Canvas {
   private void paintAxes() {
     getGraphicsContext2D().setStroke(AXIS_COLOR);
     getGraphicsContext2D().setFill(AXIS_COLOR);
-    getGraphicsContext2D().setTextBaseline(VPos.CENTER);
     getGraphicsContext2D().strokeLine(toScreenX(0), toScreenY(minY), toScreenX(0), toScreenY(maxY));
     getGraphicsContext2D()
         .fillPolygon(
@@ -60,16 +60,16 @@ public class PlotCanvas extends Canvas {
             },
             new double[] {AXIS_ARROW_SIZE, 0, AXIS_ARROW_SIZE},
             3);
-    getGraphicsContext2D()
-        .fillText(
-            String.valueOf(minY),
-            toScreenX(0) + AXIS_ARROW_SIZE,
-            toScreenY(minY) - AXIS_ARROW_SIZE / 2);
-    getGraphicsContext2D()
-        .fillText(
-            String.valueOf(maxY),
-            toScreenX(0) + AXIS_ARROW_SIZE,
-            toScreenY(maxY) + AXIS_ARROW_SIZE / 2);
+    getGraphicsContext2D().setTextAlign(TextAlignment.LEFT);
+    getGraphicsContext2D().setTextBaseline(VPos.BOTTOM);
+    if (minY != 0) {
+      getGraphicsContext2D()
+          .fillText(String.valueOf(minY), toScreenX(0) + AXIS_ARROW_SIZE / 2, getHeight());
+    }
+    getGraphicsContext2D().setTextBaseline(VPos.TOP);
+    if (maxY != 0) {
+      getGraphicsContext2D().fillText(String.valueOf(maxY), toScreenX(0) + AXIS_ARROW_SIZE / 2, 0);
+    }
     getGraphicsContext2D().strokeLine(toScreenX(minX), toScreenY(0), toScreenX(maxX), toScreenY(0));
     getGraphicsContext2D()
         .fillPolygon(
@@ -78,6 +78,16 @@ public class PlotCanvas extends Canvas {
               toScreenY(0) - AXIS_ARROW_SIZE / 2, toScreenY(0), toScreenY(0) + AXIS_ARROW_SIZE / 2
             },
             3);
+    getGraphicsContext2D().setTextBaseline(VPos.BOTTOM);
+    getGraphicsContext2D().setTextAlign(TextAlignment.LEFT);
+    if (minX != 0) {
+      getGraphicsContext2D().fillText(String.valueOf(minX), 0, toScreenY(0) - AXIS_ARROW_SIZE / 2);
+    }
+    getGraphicsContext2D().setTextAlign(TextAlignment.RIGHT);
+    if (maxX != 0) {
+      getGraphicsContext2D()
+          .fillText(String.valueOf(maxX), getWidth(), toScreenY(0) - AXIS_ARROW_SIZE / 2);
+    }
   }
 
   private void paintFunction() {

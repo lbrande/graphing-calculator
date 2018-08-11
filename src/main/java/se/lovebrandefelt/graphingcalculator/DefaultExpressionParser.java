@@ -15,9 +15,10 @@ class DefaultExpressionParser implements ExpressionParser {
   private static final String NUMERIC_VALUE_REGEX = "-?\\d+(?:\\.\\d+)?";
   private static final Pattern NUMERIC_VALUE_PATTERN = Pattern.compile(NUMERIC_VALUE_REGEX);
 
-  private static final String ILLEGAL_EXPRESSION_ERROR_MESSAGE = " is not a legal expression.";
-  private static final String NOT_VARIABLE_ERROR_MESSAGE = " is not a variable.";
-  private static final String NOT_PAREN_ERROR_MESSAGE = " is not a parenthesis.";
+  private static final String ILLEGAL_EXPRESSION_ERROR_MESSAGE =
+      "\"%s\" is not a legal expression.";
+  private static final String NOT_VARIABLE_ERROR_MESSAGE = "%c is not a variable.";
+  private static final String NOT_PAREN_ERROR_MESSAGE = "%c is not a parenthesis.";
 
   private String expression;
   private char[] variables;
@@ -70,7 +71,8 @@ class DefaultExpressionParser implements ExpressionParser {
   }
 
   private IllegalArgumentException newIllegalExpressionException() {
-    return new IllegalArgumentException(expression + ILLEGAL_EXPRESSION_ERROR_MESSAGE);
+    return new IllegalArgumentException(
+        String.format(ILLEGAL_EXPRESSION_ERROR_MESSAGE, expression));
   }
 
   private void findNextToken() {
@@ -122,7 +124,7 @@ class DefaultExpressionParser implements ExpressionParser {
     if (isVariable(currentChar)) {
       token = new VariableToken(currentChar);
     } else {
-      throw new IllegalArgumentException(NOT_VARIABLE_ERROR_MESSAGE);
+      throw new IllegalArgumentException(String.format(NOT_VARIABLE_ERROR_MESSAGE, currentChar));
     }
 
     expressionIndex++;
@@ -168,7 +170,7 @@ class DefaultExpressionParser implements ExpressionParser {
       token = new RightParenToken();
       openParens--;
     } else {
-      throw new IllegalArgumentException(currentChar + NOT_PAREN_ERROR_MESSAGE);
+      throw new IllegalArgumentException(String.format(NOT_PAREN_ERROR_MESSAGE, currentChar));
     }
 
     expressionIndex++;

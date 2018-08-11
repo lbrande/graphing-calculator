@@ -16,32 +16,32 @@
     <right>
         <VBox>
             <Label text="Function"/>
-            <TextField fx:id="functionField" onKeyTyped="#onFunctionTextFieldChange"/>
+            <TextField fx:id="functionField" onKeyTyped="#onFunctionFieldChange"/>
             <GridPane>
                 <Label text="MinX" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
                 <TextField fx:id="minX" styleClass="number-field" GridPane.rowIndex="0"
                            GridPane.columnIndex="1"
-                           onKeyTyped="#onViewChange"
+                           onKeyTyped="#onViewFieldsChange"
                            text="-100"/>
                 <Label text="MaxX" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
                 <TextField fx:id="maxX" styleClass="number-field" GridPane.rowIndex="0"
                            GridPane.columnIndex="3"
-                           onKeyTyped="#onViewChange"
+                           onKeyTyped="#onViewFieldsChange"
                            text="100"/>
                 <Label text="MinY" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
                 <TextField fx:id="minY" styleClass="number-field" GridPane.rowIndex="1"
                            GridPane.columnIndex="1"
-                           onKeyTyped="#onViewChange"
+                           onKeyTyped="#onViewFieldsChange"
                            text="-100"/>
                 <Label text="MaxY" GridPane.rowIndex="1" GridPane.columnIndex="2"/>
                 <TextField fx:id="maxY" styleClass="number-field" GridPane.rowIndex="1"
                            GridPane.columnIndex="3"
-                           onKeyTyped="#onViewChange"
+                           onKeyTyped="#onViewFieldsChange"
                            text="100"/>
                 <Label text="StepX" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
                 <TextField fx:id="stepX" styleClass="number-field" GridPane.rowIndex="2"
                            GridPane.columnIndex="1"
-                           onKeyTyped="#onViewChange"
+                           onKeyTyped="#onViewFieldsChange"
                            text="0.1"/>
             </GridPane>
         </VBox>

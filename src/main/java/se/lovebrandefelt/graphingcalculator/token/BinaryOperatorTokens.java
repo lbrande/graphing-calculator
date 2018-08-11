@@ -7,7 +7,7 @@ import java.util.function.Supplier;
 public abstract class BinaryOperatorTokens {
   private static final Map<Character, Supplier<Token>> BINARY_OPERATORS = new HashMap<>();
 
-  private static final String NOT_BINARY_OPERATOR_ERROR_MESSAGE = " is not a binary operator.";
+  private static final String NOT_BINARY_OPERATOR_ERROR_MESSAGE = "%c is not a binary operator.";
 
   static {
     BINARY_OPERATORS.put('+', AddToken::new);
@@ -31,7 +31,8 @@ public abstract class BinaryOperatorTokens {
     if (BINARY_OPERATORS.containsKey(operator)) {
       return BINARY_OPERATORS.get(operator).get();
     } else {
-      throw new IllegalArgumentException(operator + NOT_BINARY_OPERATOR_ERROR_MESSAGE);
+      throw new IllegalArgumentException(
+          String.format(NOT_BINARY_OPERATOR_ERROR_MESSAGE, operator));
     }
   }
 }
