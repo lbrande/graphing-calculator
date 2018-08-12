@@ -8,23 +8,26 @@ import se.lovebrandefelt.graphingcalculator.Function;
 
 public class PlotCanvas extends Canvas {
   private static final Color AXIS_COLOR = new Color(0.75, 0.75, 0.75, 1);
-  private static final Color FUNCTION_COLOR = new Color(0.75, 0.75, 0, 1);
+  private static final Color FUNCTION_COLOR = new Color(0.75, 0.25, 0, 1);
   private static final int AXIS_ARROW_SIZE = 10;
 
   private Function function;
+  private FunctionType functionType = FunctionType.NORMAL;
   private double minX;
   private double maxX;
   private double minY;
   private double maxY;
   private double stepX;
 
-  void setFunction(Function function) {
+  void setFunction(Function function, FunctionType type) {
     this.function = function;
+    functionType = type;
     repaint();
   }
 
   void removeFunction() {
     function = null;
+    functionType = FunctionType.NORMAL;
     repaint();
   }
 
@@ -39,9 +42,16 @@ public class PlotCanvas extends Canvas {
 
   private void repaint() {
     clear();
-    paintAxes();
-    if (function != null) {
-      paintFunction();
+    if (functionType == FunctionType.NORMAL) {
+      paintNormalAxes();
+      if (function != null) {
+        paintNormalFunction();
+      }
+    } else if (functionType == FunctionType.POLAR) {
+      paintPolarAxes();
+      if (function != null) {
+        paintPolarFunction();
+      }
     }
   }
 
@@ -49,7 +59,7 @@ public class PlotCanvas extends Canvas {
     getGraphicsContext2D().clearRect(0, 0, getWidth(), getHeight());
   }
 
-  private void paintAxes() {
+  private void paintNormalAxes() {
     getGraphicsContext2D().setStroke(AXIS_COLOR);
     getGraphicsContext2D().setFill(AXIS_COLOR);
     if (toScreenX(0) < 0 || toScreenX(0) > getWidth()) {
@@ -111,7 +121,7 @@ public class PlotCanvas extends Canvas {
     }
   }
 
-  private void paintFunction() {
+  private void paintNormalFunction() {
     getGraphicsContext2D().beginPath();
     getGraphicsContext2D().moveTo(toScreenX(minX), toScreenY(function.evaluate(minX)));
     for (var x = minX + stepX; x <= maxX + stepX; x += stepX) {
@@ -120,6 +130,10 @@ public class PlotCanvas extends Canvas {
     getGraphicsContext2D().setStroke(FUNCTION_COLOR);
     getGraphicsContext2D().stroke();
   }
+
+  private void paintPolarFunction() {}
+
+  private void paintPolarAxes() {}
 
   private double toScreenX(double x) {
     return AXIS_ARROW_SIZE / 2 + (x - minX) / (maxX - minX) * (getWidth() - AXIS_ARROW_SIZE);

@@ -1,6 +1,7 @@
 package se.lovebrandefelt.graphingcalculator.gui;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.util.Duration;
@@ -15,11 +16,16 @@ public class GuiController {
 
   @FXML private PlotCanvas plotCanvas;
   @FXML private TextField functionField;
+  @FXML private RadioButton normalFunction;
+  @FXML private RadioButton polarFunction;
   @FXML private TextField minX;
   @FXML private TextField maxX;
   @FXML private TextField minY;
   @FXML private TextField maxY;
   @FXML private TextField stepX;
+  @FXML private TextField minT;
+  @FXML private TextField maxT;
+  @FXML private TextField stepT;
 
   @FXML
   private void initialize() {
@@ -27,14 +33,18 @@ public class GuiController {
   }
 
   @FXML
-  private void onFunctionFieldChange() {
+  private void onFunctionChange() {
     unmarkFields(functionField);
 
     if (functionField.getText().trim().isEmpty()) {
       plotCanvas.removeFunction();
     } else {
       try {
-        plotCanvas.setFunction(new Function(functionField.getText(), 'x'));
+        if (normalFunction.isSelected()) {
+          plotCanvas.setFunction(new Function(functionField.getText(), 'x'), FunctionType.NORMAL);
+        } else if (polarFunction.isSelected()) {
+          plotCanvas.setFunction(new Function(functionField.getText(), 't'), FunctionType.POLAR);
+        }
       } catch (IllegalArgumentException e) {
         markField(functionField, e.getMessage());
         plotCanvas.removeFunction();
@@ -43,7 +53,7 @@ public class GuiController {
   }
 
   @FXML
-  private void onViewFieldsChange() {
+  private void onViewChange() {
     unmarkFields(minX, maxX, minY, maxY, stepX);
 
     if (checkAndMarkRangeFields(minX, maxX)

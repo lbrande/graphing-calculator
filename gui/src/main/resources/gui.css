@@ -27,6 +27,17 @@
     -fx-background-radius: 10;
 }
 
+.radio-button .radio {
+    -fx-border-color: #b0b0b0;
+    -fx-border-radius: 10;
+    -fx-background-color: #404040;
+    -fx-background-radius: 10;
+}
+
+.radio-button:selected .dot {
+    -fx-background-color: #b0b0b0;
+}
+
 .number-field {
     -fx-pref-width: 50;
 }
