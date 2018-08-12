@@ -31,7 +31,7 @@
                 <RadioButton fx:id="polarFunction" text="Polar (r(t))" toggleGroup="$functionTypes"
                              onAction="#onFunctionChange"/>
             </HBox>
-            <GridPane>
+            <GridPane fx:id="normalView">
                 <Label text="MinX" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
                 <TextField fx:id="minX" styleClass="number-field" GridPane.rowIndex="0"
                            GridPane.columnIndex="1"
@@ -58,7 +58,7 @@
                            onKeyTyped="#onViewChange"
                            text="0.1"/>
             </GridPane>
-            <GridPane visible="false">
+            <GridPane fx:id="polarView" disable="true">
                 <Label text="MinT" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
                 <TextField fx:id="minT" styleClass="number-field" GridPane.rowIndex="0"
                            GridPane.columnIndex="1"
