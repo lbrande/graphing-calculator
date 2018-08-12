@@ -31,29 +31,37 @@
                 <RadioButton fx:id="polarFunction" text="Polar (r(t))" toggleGroup="$functionTypes"
                              onAction="#onFunctionChange"/>
             </HBox>
-            <GridPane fx:id="normalView">
-                <Label text="MinX" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-                <TextField fx:id="minX" styleClass="number-field" GridPane.rowIndex="0"
+            <GridPane>
+                <Label text="GridX" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                <TextField fx:id="gridX" GridPane.rowIndex="0" GridPane.columnIndex="1"
+                           styleClass="number-field" onKeyTyped="#onGridSizeChange"
+                           text="20"/>
+                <Label text="GridY" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
+                <TextField fx:id="gridY" GridPane.rowIndex="0" GridPane.columnIndex="3"
+                           styleClass="number-field" onKeyTyped="#onGridSizeChange"
+                           text="20"/>
+                <Label text="MinX" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                <TextField fx:id="minX" styleClass="number-field" GridPane.rowIndex="1"
                            GridPane.columnIndex="1"
                            onKeyTyped="#onViewChange"
                            text="-100"/>
-                <Label text="MaxX" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
-                <TextField fx:id="maxX" styleClass="number-field" GridPane.rowIndex="0"
+                <Label text="MaxX" GridPane.rowIndex="1" GridPane.columnIndex="2"/>
+                <TextField fx:id="maxX" styleClass="number-field" GridPane.rowIndex="1"
                            GridPane.columnIndex="3"
                            onKeyTyped="#onViewChange"
                            text="100"/>
-                <Label text="MinY" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-                <TextField fx:id="minY" styleClass="number-field" GridPane.rowIndex="1"
+                <Label text="MinY" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                <TextField fx:id="minY" styleClass="number-field" GridPane.rowIndex="2"
                            GridPane.columnIndex="1"
                            onKeyTyped="#onViewChange"
                            text="-100"/>
-                <Label text="MaxY" GridPane.rowIndex="1" GridPane.columnIndex="2"/>
-                <TextField fx:id="maxY" styleClass="number-field" GridPane.rowIndex="1"
+                <Label text="MaxY" GridPane.rowIndex="2" GridPane.columnIndex="2"/>
+                <TextField fx:id="maxY" styleClass="number-field" GridPane.rowIndex="2"
                            GridPane.columnIndex="3"
                            onKeyTyped="#onViewChange"
                            text="100"/>
-                <Label text="StepX" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-                <TextField fx:id="stepX" styleClass="number-field" GridPane.rowIndex="2"
+                <Label text="StepX" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                <TextField fx:id="stepX" styleClass="number-field" GridPane.rowIndex="3"
                            GridPane.columnIndex="1"
                            onKeyTyped="#onViewChange"
                            text="0.1"/>

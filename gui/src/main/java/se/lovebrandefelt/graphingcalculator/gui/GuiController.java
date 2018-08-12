@@ -20,7 +20,8 @@ public class GuiController {
   @FXML private TextField functionField;
   @FXML private RadioButton normalFunction;
   @FXML private RadioButton polarFunction;
-  @FXML private GridPane normalView;
+  @FXML private TextField gridX;
+  @FXML private TextField gridY;
   @FXML private TextField minX;
   @FXML private TextField maxX;
   @FXML private TextField minY;
@@ -33,6 +34,7 @@ public class GuiController {
 
   @FXML
   private void initialize() {
+    plotCanvas.setGrid(Double.valueOf(gridX.getText()), Double.valueOf(gridY.getText()));
     updateNormalView();
     updatePolarView();
   }
@@ -43,16 +45,23 @@ public class GuiController {
 
     try {
       if (getFunctionType() == FunctionType.NORMAL) {
-        normalView.setDisable(false);
         polarView.setDisable(true);
       } else if (getFunctionType() == FunctionType.POLAR) {
-        normalView.setDisable(true);
         polarView.setDisable(false);
       }
-      setFunction();
+      updateFunction();
     } catch (IllegalArgumentException e) {
       markField(functionField, e.getMessage());
       plotCanvas.removeFunction(getFunctionType());
+    }
+  }
+
+  @FXML
+  private void onGridSizeChange() {
+    unmarkFields(gridX, gridY);
+
+    if (checkAndMarkPositiveField(gridX) && checkAndMarkPositiveField(gridY)) {
+      plotCanvas.setGrid(Double.valueOf(gridX.getText()), Double.valueOf(gridY.getText()));
     }
   }
 
@@ -71,7 +80,7 @@ public class GuiController {
     }
   }
 
-  private void setFunction() {
+  private void updateFunction() {
     if (functionField.getText().trim().isEmpty()) {
       plotCanvas.removeFunction(getFunctionType());
     } else {
