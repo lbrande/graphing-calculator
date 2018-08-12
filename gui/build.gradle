@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'checkstyle'
+    id 'application'
 }
 
 repositories {
@@ -13,4 +14,11 @@ dependencies {
 
 checkstyle {
     toolVersion checkstyleVersion
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'se.lovebrandefelt.graphingcalculator.gui.Gui'
+    }
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
 }
