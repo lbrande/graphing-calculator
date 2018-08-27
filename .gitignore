@@ -1,5 +1,6 @@
 .gradle/
 .idea/
+graphing-calculator.iml
 build/
 out/
 gui/build/
