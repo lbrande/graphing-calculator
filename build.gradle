@@ -3,7 +3,7 @@ ext {
 
     jUnitVersion = '5.2.0'
 
-    checkstyleVersion = '8.11'
+    checkstyleVersion = '8.12'
 }
 
 allprojects {
@@ -19,7 +19,7 @@ allprojects {
         exclude 'module-info.java'
     }
 
-    idea.module.inheritOutputDirs = true
+    idea.module.outputDir file("out/production/classes")
 
     version '1.0-SNAPSHOT'
 
