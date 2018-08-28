@@ -1,26 +1,5 @@
-plugins {
-    id 'java'
-    id 'checkstyle'
-}
-
 ext {
     moduleName = 'se.lovebrandefelt.graphingcalculator.gui'
-}
-
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    implementation rootProject
-}
-
-checkstyle {
-    toolVersion checkstyleVersion
-}
-
-tasks.withType(Checkstyle) {
-    exclude 'module-info.java'
 }
 
 jar {
