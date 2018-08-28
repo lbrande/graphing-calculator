@@ -3,6 +3,10 @@ plugins {
     id 'checkstyle'
 }
 
+ext {
+    moduleName = 'se.lovebrandefelt.graphingcalculator.gui'
+}
+
 repositories {
     mavenCentral()
 }

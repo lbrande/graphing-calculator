@@ -17,12 +17,20 @@ repositories {
 }
 
 dependencies {
-    testCompile group: jUnitGroup, name: 'junit-jupiter-api', version: jUnitVersion
-    testRuntime group: jUnitGroup, name: 'junit-jupiter-engine', version: jUnitVersion
+    implementation group: jUnitGroup, name: 'junit-jupiter-api', version: jUnitVersion
+    implementation group: jUnitGroup, name: 'junit-jupiter-engine', version: jUnitVersion
 }
 
 test {
     useJUnitPlatform()
+}
+
+checkstyle {
+    toolVersion checkstyleVersion
+}
+
+tasks.withType(Checkstyle) {
+    exclude 'module-info.java'
 }
 
 allprojects {
@@ -45,12 +53,4 @@ allprojects {
             }
         }
     }
-}
-
-checkstyle {
-    toolVersion checkstyleVersion
-}
-
-tasks.withType(Checkstyle) {
-    exclude 'module-info.java'
 }
