@@ -10,79 +10,79 @@
 <?import javafx.scene.layout.VBox?>
 <?import se.lovebrandefelt.graphingcalculator.gui.PlotCanvas?>
 <BorderPane xmlns:fx="http://javafx.com/fxml"
-            xmlns="http://javafx.com/javafx"
-            fx:controller="se.lovebrandefelt.graphingcalculator.gui.GuiController"
-            styleClass="parent">
-    <center>
-        <PlotCanvas fx:id="plotCanvas" width="800" height="600"/>
-    </center>
-    <right>
-        <VBox>
-            <Label text="Function"/>
-            <TextField fx:id="functionField" onKeyTyped="#onFunctionChange"/>
-            <Label text="Function type"/>
-            <HBox>
-                <fx:define>
-                    <ToggleGroup fx:id="functionTypes"/>
-                </fx:define>
-                <RadioButton fx:id="normalFunction" text="Normal (y(x))"
-                             toggleGroup="$functionTypes"
-                             onAction="#onFunctionChange" selected="true"/>
-                <RadioButton fx:id="polarFunction" text="Polar (r(t))" toggleGroup="$functionTypes"
-                             onAction="#onFunctionChange"/>
-            </HBox>
-            <GridPane>
-                <Label text="GridX" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-                <TextField fx:id="gridX" GridPane.rowIndex="0" GridPane.columnIndex="1"
-                           styleClass="number-field" onKeyTyped="#onGridSizeChange"
-                           text="20"/>
-                <Label text="GridY" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
-                <TextField fx:id="gridY" GridPane.rowIndex="0" GridPane.columnIndex="3"
-                           styleClass="number-field" onKeyTyped="#onGridSizeChange"
-                           text="20"/>
-                <Label text="MinX" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-                <TextField fx:id="minX" styleClass="number-field" GridPane.rowIndex="1"
-                           GridPane.columnIndex="1"
-                           onKeyTyped="#onViewChange"
-                           text="-100"/>
-                <Label text="MaxX" GridPane.rowIndex="1" GridPane.columnIndex="2"/>
-                <TextField fx:id="maxX" styleClass="number-field" GridPane.rowIndex="1"
-                           GridPane.columnIndex="3"
-                           onKeyTyped="#onViewChange"
-                           text="100"/>
-                <Label text="MinY" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-                <TextField fx:id="minY" styleClass="number-field" GridPane.rowIndex="2"
-                           GridPane.columnIndex="1"
-                           onKeyTyped="#onViewChange"
-                           text="-100"/>
-                <Label text="MaxY" GridPane.rowIndex="2" GridPane.columnIndex="2"/>
-                <TextField fx:id="maxY" styleClass="number-field" GridPane.rowIndex="2"
-                           GridPane.columnIndex="3"
-                           onKeyTyped="#onViewChange"
-                           text="100"/>
-                <Label text="StepX" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
-                <TextField fx:id="stepX" styleClass="number-field" GridPane.rowIndex="3"
-                           GridPane.columnIndex="1"
-                           onKeyTyped="#onViewChange"
-                           text="0.1"/>
-            </GridPane>
-            <GridPane fx:id="polarView" disable="true">
-                <Label text="MinT" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-                <TextField fx:id="minT" styleClass="number-field" GridPane.rowIndex="0"
-                           GridPane.columnIndex="1"
-                           onKeyTyped="#onViewChange"
-                           text="0"/>
-                <Label text="MaxT" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
-                <TextField fx:id="maxT" styleClass="number-field" GridPane.rowIndex="0"
-                           GridPane.columnIndex="3"
-                           onKeyTyped="#onViewChange"
-                           text="10"/>
-                <Label text="StepT" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-                <TextField fx:id="stepT" styleClass="number-field" GridPane.rowIndex="1"
-                           GridPane.columnIndex="1"
-                           onKeyTyped="#onViewChange"
-                           text="0.01"/>
-            </GridPane>
-        </VBox>
-    </right>
+  styleClass="parent"
+  xmlns="http://javafx.com/javafx"
+  fx:controller="se.lovebrandefelt.graphingcalculator.gui.GuiController">
+  <center>
+    <PlotCanvas height="600" width="800" fx:id="plotCanvas"/>
+  </center>
+  <right>
+    <VBox>
+      <Label text="Function"/>
+      <TextField onKeyTyped="#onFunctionChange" fx:id="functionField"/>
+      <Label text="Function type"/>
+      <HBox>
+        <fx:define>
+          <ToggleGroup fx:id="functionTypes"/>
+        </fx:define>
+        <RadioButton onAction="#onFunctionChange" selected="true"
+          text="Normal (y(x))"
+          toggleGroup="$functionTypes" fx:id="normalFunction"/>
+        <RadioButton onAction="#onFunctionChange" text="Polar (r(t))" toggleGroup="$functionTypes"
+          fx:id="polarFunction"/>
+      </HBox>
+      <GridPane>
+        <Label GridPane.columnIndex="0" GridPane.rowIndex="0" text="GridX"/>
+        <TextField GridPane.columnIndex="1" GridPane.rowIndex="0" onKeyTyped="#onGridSizeChange"
+          styleClass="number-field" text="20"
+          fx:id="gridX"/>
+        <Label GridPane.columnIndex="2" GridPane.rowIndex="0" text="GridY"/>
+        <TextField GridPane.columnIndex="3" GridPane.rowIndex="0" onKeyTyped="#onGridSizeChange"
+          styleClass="number-field" text="20"
+          fx:id="gridY"/>
+        <Label GridPane.columnIndex="0" GridPane.rowIndex="1" text="MinX"/>
+        <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" onKeyTyped="#onViewChange"
+          styleClass="number-field"
+          text="-100"
+          fx:id="minX"/>
+        <Label GridPane.columnIndex="2" GridPane.rowIndex="1" text="MaxX"/>
+        <TextField GridPane.columnIndex="3" GridPane.rowIndex="1" onKeyTyped="#onViewChange"
+          styleClass="number-field"
+          text="100"
+          fx:id="maxX"/>
+        <Label GridPane.columnIndex="0" GridPane.rowIndex="2" text="MinY"/>
+        <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" onKeyTyped="#onViewChange"
+          styleClass="number-field"
+          text="-100"
+          fx:id="minY"/>
+        <Label GridPane.columnIndex="2" GridPane.rowIndex="2" text="MaxY"/>
+        <TextField GridPane.columnIndex="3" GridPane.rowIndex="2" onKeyTyped="#onViewChange"
+          styleClass="number-field"
+          text="100"
+          fx:id="maxY"/>
+        <Label GridPane.columnIndex="0" GridPane.rowIndex="3" text="StepX"/>
+        <TextField GridPane.columnIndex="1" GridPane.rowIndex="3" onKeyTyped="#onViewChange"
+          styleClass="number-field"
+          text="0.1"
+          fx:id="stepX"/>
+      </GridPane>
+      <GridPane disable="true" fx:id="polarView">
+        <Label GridPane.columnIndex="0" GridPane.rowIndex="0" text="MinT"/>
+        <TextField GridPane.columnIndex="1" GridPane.rowIndex="0" onKeyTyped="#onViewChange"
+          styleClass="number-field"
+          text="0"
+          fx:id="minT"/>
+        <Label GridPane.columnIndex="2" GridPane.rowIndex="0" text="MaxT"/>
+        <TextField GridPane.columnIndex="3" GridPane.rowIndex="0" onKeyTyped="#onViewChange"
+          styleClass="number-field"
+          text="10"
+          fx:id="maxT"/>
+        <Label GridPane.columnIndex="0" GridPane.rowIndex="1" text="StepT"/>
+        <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" onKeyTyped="#onViewChange"
+          styleClass="number-field"
+          text="0.01"
+          fx:id="stepT"/>
+      </GridPane>
+    </VBox>
+  </right>
 </BorderPane>

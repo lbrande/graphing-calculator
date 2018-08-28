@@ -10,7 +10,7 @@ public class PlotCanvas extends Canvas {
   private static final Color FUNCTION_COLOR = new Color(0.75, 0.25, 0, 1);
   private static final Color GRID_COLOR = new Color(0.25, 0.25, 0.25, 1);
   private static final Color AXIS_COLOR = new Color(0.75, 0.75, 0.75, 1);
-  private static final int AXIS_ARROW_SIZE = 10;
+  private static final double AXIS_ARROW_SIZE = 10;
 
   private Function function;
   private FunctionType functionType = FunctionType.NORMAL;

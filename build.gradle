@@ -4,16 +4,12 @@ plugins {
 }
 
 ext {
+    moduleName = 'se.lovebrandefelt.graphingcalculator'
+
     jUnitGroup = 'org.junit.jupiter'
     jUnitVersion = '5.2.0'
 
     checkstyleVersion = '8.11'
-}
-
-allprojects {
-    version '1.0-SNAPSHOT'
-
-    sourceCompatibility = 1.10
 }
 
 repositories {
@@ -29,6 +25,32 @@ test {
     useJUnitPlatform()
 }
 
+allprojects {
+    version '1.0-SNAPSHOT'
+
+    sourceCompatibility = 1.10
+
+    afterEvaluate {
+        repositories {
+            jcenter()
+        }
+
+        compileJava {
+            inputs.property("moduleName", moduleName)
+            doFirst {
+                options.compilerArgs = [
+                        '--module-path', classpath.asPath,
+                ]
+                classpath = files()
+            }
+        }
+    }
+}
+
 checkstyle {
     toolVersion checkstyleVersion
+}
+
+tasks.withType(Checkstyle) {
+    exclude 'module-info.java'
 }

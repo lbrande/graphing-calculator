@@ -1,43 +1,43 @@
 * {
-    -fx-font-size: 12;
-    -fx-text-fill: #b0b0b0;
-    -fx-highlight-fill: #b0b0b0;
-    -fx-highlight-text-fill: #404040;
-    -fx-spacing: 5;
-    -fx-hgap: 5;
-    -fx-vgap: 5;
+  -fx-font-size: 12;
+  -fx-text-fill: #b0b0b0;
+  -fx-highlight-fill: #b0b0b0;
+  -fx-highlight-text-fill: #404040;
+  -fx-spacing: 5;
+  -fx-hgap: 5;
+  -fx-vgap: 5;
 }
 
 .parent {
-    -fx-background-color: #202020;
-    -fx-padding: 5;
+  -fx-background-color: #202020;
+  -fx-padding: 5;
 }
 
 .text-field {
-    -fx-border-color: #b0b0b0;
-    -fx-border-radius: 10;
-    -fx-background-color: #404040;
-    -fx-background-radius: 10;
+  -fx-border-color: #b0b0b0;
+  -fx-border-radius: 10;
+  -fx-background-color: #404040;
+  -fx-background-radius: 10;
 }
 
 .text-field.error {
-    -fx-border-color: #b00000;
-    -fx-border-radius: 10;
-    -fx-background-color: #400000;
-    -fx-background-radius: 10;
+  -fx-border-color: #b00000;
+  -fx-border-radius: 10;
+  -fx-background-color: #400000;
+  -fx-background-radius: 10;
 }
 
 .radio-button .radio {
-    -fx-border-color: #b0b0b0;
-    -fx-border-radius: 10;
-    -fx-background-color: #404040;
-    -fx-background-radius: 10;
+  -fx-border-color: #b0b0b0;
+  -fx-border-radius: 10;
+  -fx-background-color: #404040;
+  -fx-background-radius: 10;
 }
 
 .radio-button:selected .dot {
-    -fx-background-color: #b0b0b0;
+  -fx-background-color: #b0b0b0;
 }
 
 .number-field {
-    -fx-pref-width: 50;
+  -fx-pref-width: 50;
 }

@@ -15,6 +15,10 @@ checkstyle {
     toolVersion checkstyleVersion
 }
 
+tasks.withType(Checkstyle) {
+    exclude 'module-info.java'
+}
+
 jar {
     manifest {
         attributes 'Main-Class': 'se.lovebrandefelt.graphingcalculator.gui.Gui'
