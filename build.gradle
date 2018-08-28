@@ -6,7 +6,6 @@ plugins {
 ext {
     moduleName = 'se.lovebrandefelt.graphingcalculator'
 
-    jUnitGroup = 'org.junit.jupiter'
     jUnitVersion = '5.2.0'
 
     checkstyleVersion = '8.11'
@@ -17,8 +16,7 @@ repositories {
 }
 
 dependencies {
-    implementation group: jUnitGroup, name: 'junit-jupiter-api', version: jUnitVersion
-    implementation group: jUnitGroup, name: 'junit-jupiter-engine', version: jUnitVersion
+    implementation group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: jUnitVersion
 }
 
 test {
