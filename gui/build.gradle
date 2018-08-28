@@ -12,7 +12,7 @@ repositories {
 }
 
 dependencies {
-    compile rootProject
+    implementation rootProject
 }
 
 checkstyle {
