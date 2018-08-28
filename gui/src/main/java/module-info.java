@@ -5,5 +5,7 @@ module se.lovebrandefelt.graphingcalculator.gui {
   requires se.lovebrandefelt.graphingcalculator;
 
   exports se.lovebrandefelt.graphingcalculator.gui;
-  opens se.lovebrandefelt.graphingcalculator.gui to javafx.fxml;
+
+  opens se.lovebrandefelt.graphingcalculator.gui to
+      javafx.fxml;
 }
